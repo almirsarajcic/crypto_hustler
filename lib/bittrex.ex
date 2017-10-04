@@ -1,0 +1,2 @@
+defmodule Bittrex do
+end
