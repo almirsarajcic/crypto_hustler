@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :bittrex, client: Bittrex.Client.InMemoryClient
+config :crypto_hustler, :bittrex, client: Bittrex.Client.InMemoryClient
