@@ -1,7 +1,7 @@
 defmodule Bittrex.Request do
   defstruct [:endpoint, :headers, :params]
 
-  def new(endpoint, headers \\ [], params \\ %{}) do
+  def new(endpoint, params \\ %{}, headers \\ []) do
     %__MODULE__{endpoint: endpoint, headers: headers, params: params}
   end
 
