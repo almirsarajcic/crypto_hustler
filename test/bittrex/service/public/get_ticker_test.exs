@@ -18,9 +18,6 @@ defmodule Bittrex.Service.Public.GetTickerTest do
     }})
 
     assert {:ok, %Ticker{
-      market: %Market{
-        name: "BTC-LTC",
-      },
       bid: 2.05670368,
       ask: 3.35579531,
       last: 3.35579531,

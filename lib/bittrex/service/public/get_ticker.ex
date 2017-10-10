@@ -3,21 +3,20 @@ defmodule Bittrex.Service.Public.GetTicker do
 
   alias Bittrex.{Market, Ticker}
 
-  def call(%Market{name: name} = market) do
+  def call(%Market{name: name}) do
     Request.new("/public/getticker", %{market: name})
     |> Client.send()
-    |> format_response(market)
+    |> format_response()
   end
 
-  defp format_response({:ok, result}, market) do
-    response = parse_ticker(result, market)
+  defp format_response({:ok, result}) do
+    response = parse_ticker(result)
     {:ok, response}
   end
-  defp format_response({:error, reason}, _), do: {:error, reason}
+  defp format_response({:error, reason}), do: {:error, reason}
 
-  defp parse_ticker(result, market) do
+  defp parse_ticker(result) do
     %Ticker{
-      market: market,
       bid: result["Bid"],
       ask: result["Ask"],
       last: result["Last"],
