@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
     :ok
   end
 
-  test "returns Bittrex.MarketSummary structs" do
+  test "returns Bittrex.MarketSummary struct" do
     InMemoryClient.push({:ok, %{
       "MarketName" => "BTC-LTC",
 			"High" => 0.01350000,
