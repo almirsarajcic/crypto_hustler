@@ -12,25 +12,24 @@ defmodule Bittrex.Service.Public.GetMarketsTest do
 
   test "returns list of Bittrex.Market structs" do
     InMemoryClient.push({:ok, [%{
-  			"MarketCurrency" => "LTC",
-  			"BaseCurrency" => "BTC",
-  			"MarketCurrencyLong" => "Litecoin",
-  			"BaseCurrencyLong" => "Bitcoin",
-  			"MinTradeSize" => 0.01000000,
-  			"MarketName" => "BTC-LTC",
-  			"IsActive" => true,
-  			"Created" => "2014-02-13T00:00:00"
-  		}, %{
-  			"MarketCurrency" => "DOGE",
-  			"BaseCurrency" => "BTC",
-  			"MarketCurrencyLong" => "Dogecoin",
-  			"BaseCurrencyLong" => "Bitcoin",
-  			"MinTradeSize" => 100.00000000,
-  			"MarketName" => "BTC-DOGE",
-  			"IsActive" => true,
-  			"Created" => "2014-02-13T00:00:00"
-  		}
-    ]})
+      "MarketCurrency" => "LTC",
+      "BaseCurrency" => "BTC",
+      "MarketCurrencyLong" => "Litecoin",
+      "BaseCurrencyLong" => "Bitcoin",
+      "MinTradeSize" => 0.01000000,
+      "MarketName" => "BTC-LTC",
+      "IsActive" => true,
+      "Created" => "2014-02-13T00:00:00"
+    }, %{
+      "MarketCurrency" => "DOGE",
+      "BaseCurrency" => "BTC",
+      "MarketCurrencyLong" => "Dogecoin",
+      "BaseCurrencyLong" => "Bitcoin",
+      "MinTradeSize" => 100.00000000,
+      "MarketName" => "BTC-DOGE",
+      "IsActive" => true,
+      "Created" => "2014-02-13T00:00:00"
+    }]})
 
     assert {:ok, [%Market{
       name: "BTC-LTC",

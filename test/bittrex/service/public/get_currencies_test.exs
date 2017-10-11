@@ -12,23 +12,22 @@ defmodule Bittrex.Service.Public.GetCurrenciesTest do
 
   test "returns list of Bittrex.Currency structs" do
     InMemoryClient.push({:ok, [%{
-  			"Currency" => "BTC",
-  			"CurrencyLong" => "Bitcoin",
-  			"MinConfirmation" => 2,
-  			"TxFee" => 0.00020000,
-  			"IsActive" => true,
-  			"CoinType" => "BITCOIN",
-  			"BaseAddress" => nil
-  		}, %{
-  			"Currency" => "LTC",
-  			"CurrencyLong" => "Litecoin",
-  			"MinConfirmation" => 5,
-  			"TxFee" => 0.00200000,
-  			"IsActive" => true,
-  			"CoinType" => "BITCOIN",
-  			"BaseAddress" => nil
-  		}
-    ]})
+      "Currency" => "BTC",
+      "CurrencyLong" => "Bitcoin",
+      "MinConfirmation" => 2,
+      "TxFee" => 0.00020000,
+      "IsActive" => true,
+      "CoinType" => "BITCOIN",
+      "BaseAddress" => nil
+    }, %{
+      "Currency" => "LTC",
+      "CurrencyLong" => "Litecoin",
+      "MinConfirmation" => 5,
+      "TxFee" => 0.00200000,
+      "IsActive" => true,
+      "CoinType" => "BITCOIN",
+      "BaseAddress" => nil
+    }]})
 
     assert {:ok, [%Currency{
       code: "BTC",

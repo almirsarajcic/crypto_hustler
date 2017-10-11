@@ -15,7 +15,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
       "buy" => [%{
         "Quantity" => 12.37000000,
         "Rate" => 0.02525000
-			}],
+      }],
       "sell" => [%{
         "Quantity" => 32.55412402,
         "Rate" => 0.02540000
@@ -29,7 +29,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
         "Quantity" => 84.00000000,
         "Rate" => 0.02600000
       }],
-		}})
+    }})
 
     assert {:ok, %OrderBook{
       buy: [
@@ -61,18 +61,18 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
 
   test "returns Bittrex.OrderBook struct with only one type of orders" do
     InMemoryClient.push({:ok, [%{
-        "Quantity" => 32.55412402,
-        "Rate" => 0.02540000
-      }, %{
-        "Quantity" => 60.00000000,
-        "Rate" => 0.02550000
-      }, %{
-        "Quantity" => 60.00000000,
-        "Rate" => 0.02575000
-      }, %{
-        "Quantity" => 84.00000000,
-        "Rate" => 0.02600000
-		}]})
+      "Quantity" => 32.55412402,
+      "Rate" => 0.02540000
+    }, %{
+      "Quantity" => 60.00000000,
+      "Rate" => 0.02550000
+    }, %{
+      "Quantity" => 60.00000000,
+      "Rate" => 0.02575000
+    }, %{
+      "Quantity" => 84.00000000,
+      "Rate" => 0.02600000
+    }]})
 
     assert {:ok, %OrderBook{
       sell: [

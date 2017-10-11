@@ -27,23 +27,23 @@ defmodule Bittrex.Service.Public.GetMarketHistoryTest do
       "Total" => 0.00401833,
       "FillType" => "PARTIAL_FILL",
       "OrderType" => "BUY"
-		}, %{
-			"Id" => 319379,
-			"TimeStamp" => "2014-07-09T02:58:48.127",
-			"Quantity" => 49.64643541,
-			"Price" => 0.01263200,
-			"Total" => 0.62713377,
-			"FillType" => "FILL",
-			"OrderType" => "SELL"
-		}, %{
-			"Id" => 319378,
-			"TimeStamp" => "2014-07-09T02:58:46.27",
-			"Quantity" => 0.35356459,
-			"Price" => 0.01263200,
-			"Total" => 0.00446622,
-			"FillType" => "PARTIAL_FILL",
-			"OrderType" => "BUY"
-		}]})
+    }, %{
+      "Id" => 319379,
+      "TimeStamp" => "2014-07-09T02:58:48.127",
+      "Quantity" => 49.64643541,
+      "Price" => 0.01263200,
+      "Total" => 0.62713377,
+      "FillType" => "FILL",
+      "OrderType" => "SELL"
+    }, %{
+      "Id" => 319378,
+      "TimeStamp" => "2014-07-09T02:58:46.27",
+      "Quantity" => 0.35356459,
+      "Price" => 0.01263200,
+      "Total" => 0.00446622,
+      "FillType" => "PARTIAL_FILL",
+      "OrderType" => "BUY"
+    }]})
 
     assert {:ok, [%MarketHistory{
       id: 319435,

@@ -13,20 +13,20 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
   test "returns Bittrex.MarketSummary struct" do
     InMemoryClient.push({:ok, %{
       "MarketName" => "BTC-LTC",
-			"High" => 0.01350000,
-			"Low" => 0.01200000,
-			"Volume" => 3833.97619253,
-			"Last" => 0.01349998,
-			"BaseVolume" => 47.03987026,
-			"TimeStamp" => "2014-07-09T07:22:16.72",
-			"Bid" => 0.01271001,
-			"Ask" => 0.01291100,
-			"OpenBuyOrders" => 45,
-			"OpenSellOrders" => 45,
-			"PrevDay" => 0.01229501,
-			"Created" => "2014-02-13T00:00:00",
-			"DisplayMarketName" => nil
-		}})
+      "High" => 0.01350000,
+      "Low" => 0.01200000,
+      "Volume" => 3833.97619253,
+      "Last" => 0.01349998,
+      "BaseVolume" => 47.03987026,
+      "TimeStamp" => "2014-07-09T07:22:16.72",
+      "Bid" => 0.01271001,
+      "Ask" => 0.01291100,
+      "OpenBuyOrders" => 45,
+      "OpenSellOrders" => 45,
+      "PrevDay" => 0.01229501,
+      "Created" => "2014-02-13T00:00:00",
+      "DisplayMarketName" => nil
+    }})
 
     assert {:ok, %MarketSummary{
       market: %Market{
