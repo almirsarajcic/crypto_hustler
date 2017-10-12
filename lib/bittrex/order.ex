@@ -1,3 +1,3 @@
 defmodule Bittrex.Order do
-  defstruct [:quantity, :rate]
+  defstruct [:uuid, :quantity, :rate]
 end
