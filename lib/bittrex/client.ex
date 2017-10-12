@@ -5,7 +5,7 @@ defmodule Bittrex.Client do
 
   @type request :: Bittrex.Request.t
   @type config :: Keyword.t
-  @type response :: Bittrex.Response.t
+  @type response :: {atom, any}
 
   @callback send(request, config) :: response
 
