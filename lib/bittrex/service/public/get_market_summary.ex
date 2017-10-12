@@ -9,7 +9,7 @@ defmodule Bittrex.Service.Public.GetMarketSummary do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response({:ok, [result]}) do
     response = MarketSummary.new(result)
     {:ok, response}
   end

@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
   end
 
   test "returns Bittrex.MarketSummary struct" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push({:ok, [%{
       "MarketName" => "BTC-LTC",
       "High" => 0.01350000,
       "Low" => 0.01200000,
@@ -26,7 +26,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
       "PrevDay" => 0.01229501,
       "Created" => "2014-02-13T00:00:00",
       "DisplayMarketName" => nil
-    }})
+    }]})
 
     assert {:ok, %MarketSummary{
       market: %Market{
