@@ -1,4 +1,5 @@
 defmodule Bittrex do
+  def parse_datetime(nil), do: nil
   def parse_datetime(string) do
     case NaiveDateTime.from_iso8601(string) do
       {:ok, datetime} -> datetime
