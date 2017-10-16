@@ -3,12 +3,7 @@ defmodule Bittrex.Service.Market.GetOpenOrders do
 
   alias Bittrex.{Market, Order}
 
-  def call do
-    Request.new("/market/getopenorders")
-    |> Client.send()
-    |> format_response()
-  end
-  def call(%Market{name: name}) do
+  def call(%Market{name: name} \\ %Market{name: nil}) do
     Request.new("/market/getopenorders", %{market: name})
     |> Client.send()
     |> format_response()
