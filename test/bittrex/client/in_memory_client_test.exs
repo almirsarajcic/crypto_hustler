@@ -8,34 +8,32 @@ defmodule Bittrex.Client.InMemoryClientTest do
     :ok
   end
 
-  test "start_link/0 starts with no requests in the stack" do
+  test "start_link/0 starts with no responses in the stack" do
     {:ok, pid} = GenServer.start_link(InMemoryClient, [])
     count = GenServer.call(pid, :all) |> Enum.count()
     assert count == 0
   end
 
-  test "push a request to the stack" do
-    InMemoryClient.push(%Bittrex.Request{})
+  test "push a response to the stack" do
+    InMemoryClient.push({:ok, nil})
     assert InMemoryClient.all() |> Enum.count() == 1
   end
 
-  test "pop a request from the stack" do
-    InMemoryClient.push(%Bittrex.Request{endpoint: "/public/getmarkets"})
-    InMemoryClient.push(%Bittrex.Request{endpoint: "/public/getcurrencies"})
+  test "pop a response from the stack" do
+    InMemoryClient.push({:error, 1})
+    InMemoryClient.push({:ok, 2})
     assert InMemoryClient.all() |> Enum.count() == 2
 
-    request = InMemoryClient.pop()
-    assert request.endpoint == "/public/getcurrencies"
+    assert {:ok, 2} = InMemoryClient.pop()
     assert InMemoryClient.all() |> Enum.count() == 1
 
-    request = InMemoryClient.pop()
-    assert request.endpoint == "/public/getmarkets"
+    assert {:error, 1} = InMemoryClient.pop()
     assert InMemoryClient.all() |> Enum.count() == 0
   end
 
-  test "delete all requests from the stack" do
-    InMemoryClient.push(%Bittrex.Request{})
-    InMemoryClient.push(%Bittrex.Request{})
+  test "delete all responses from the stack" do
+    InMemoryClient.push({:ok, nil})
+    InMemoryClient.push({:error, nil})
     assert InMemoryClient.all() |> Enum.count() == 2
 
     InMemoryClient.delete_all()
