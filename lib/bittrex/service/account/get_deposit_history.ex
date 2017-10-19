@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetDepositHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Deposit}
+  alias Bittrex.{Currency, Deposit, Response}
 
   def call(currency = %Currency{} \\ %Currency{}) do
     Request.new("/account/getdeposithistory", get_params(currency))
@@ -14,11 +14,11 @@ defmodule Bittrex.Service.Account.GetDepositHistory do
   def get_params(%Currency{code: nil}), do: %{}
   def get_params(%Currency{code: code}), do: %{currency: code}
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = Enum.map(result, &parse_deposit/1)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   def parse_deposit(result) do
     %Deposit{

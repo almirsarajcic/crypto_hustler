@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetCurrencies do
   use Bittrex.Service
 
-  alias Bittrex.Currency
+  alias Bittrex.{Currency, Response}
 
   def call do
     Request.new("/public/getcurrencies")
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Public.GetCurrencies do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = Enum.map(result, &parse_currency/1)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   defp parse_currency(result) do
     %Currency{

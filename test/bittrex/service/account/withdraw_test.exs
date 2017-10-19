@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.WithdrawTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Withdrawal}
+  alias Bittrex.{Currency, Response, Withdrawal}
   alias Bittrex.Service.Account.Withdraw
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Account.WithdrawTest do
   end
 
   test "returns Bittrex.Withdrawal struct" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "Uuid" => "68b5a16c-92de-11e3-ba3b-425861b86ab6"
     }})
 

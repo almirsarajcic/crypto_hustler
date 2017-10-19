@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order, OrderBook}
+  alias Bittrex.{Market, Order, OrderBook, Response}
   alias Bittrex.Service.Public.GetOrderBook
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
   end
 
   test "returns Bittrex.OrderBook struct with both buy and sell orders" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "buy" => [%{
         "Quantity" => 12.37000000,
         "Rate" => 0.02525000
@@ -60,7 +60,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
   end
 
   test "returns Bittrex.OrderBook struct with only one type of orders" do
-    InMemoryClient.push({:ok, [%{
+    InMemoryClient.push(%Response{status: :ok, body: [%{
       "Quantity" => 32.55412402,
       "Rate" => 0.02540000
     }, %{

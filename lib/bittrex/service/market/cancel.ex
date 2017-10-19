@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Market.Cancel do
   use Bittrex.Service
 
-  alias Bittrex.Order
+  alias Bittrex.{Order, Response}
 
   def call(%Order{uuid: uuid}) do
     Request.new("/market/cancel", %{uuid: uuid})
@@ -9,6 +9,6 @@ defmodule Bittrex.Service.Market.Cancel do
     |> format_response()
   end
 
-  defp format_response({:ok, nil}), do: {:ok, nil}
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :ok, body: nil}), do: {:ok, nil}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 end

@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Market.GetOpenOrders do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order}
+  alias Bittrex.{Market, Order, Response}
 
   def call(%Market{name: name} \\ %Market{name: nil}) do
     Request.new("/market/getopenorders", %{market: name})
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Market.GetOpenOrders do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = Enum.map(result, &parse_order/1)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   def parse_order(result) do
     %Order{

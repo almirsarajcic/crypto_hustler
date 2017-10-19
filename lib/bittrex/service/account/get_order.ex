@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetOrder do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order}
+  alias Bittrex.{Market, Order, Response}
 
   def call(%Order{uuid: uuid}) do
     Request.new("/account/getorder", %{uuid: uuid})
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Account.GetOrder do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = parse_order(result)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   defp parse_order(result) do
     %Order{

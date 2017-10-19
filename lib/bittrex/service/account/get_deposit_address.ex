@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetDepositAddress do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, DepositAddress}
+  alias Bittrex.{Currency, DepositAddress, Response}
 
   def call(%Currency{code: code}) do
     Request.new("/account/getdepositaddress", %{currency: code})
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Account.GetDepositAddress do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = parse_deposit_address(result)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   defp parse_deposit_address(result) do
     %DepositAddress{

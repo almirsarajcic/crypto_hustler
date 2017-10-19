@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetOrderHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order}
+  alias Bittrex.{Market, Order, Response}
 
   def call(market = %Market{} \\ %Market{}) do
     Request.new("/account/getorderhistory", get_params(market))
@@ -14,11 +14,11 @@ defmodule Bittrex.Service.Account.GetOrderHistory do
   def get_params(%Market{name: nil}), do: %{}
   def get_params(%Market{name: name}), do: %{market: name}
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = Enum.map(result, &parse_order/1)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   defp parse_order(result) do
     %Order{

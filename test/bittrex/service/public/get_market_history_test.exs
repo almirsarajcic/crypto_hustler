@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetMarketHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, MarketHistory}
+  alias Bittrex.{Market, MarketHistory, Response}
   alias Bittrex.Service.Public.GetMarketHistory
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetMarketHistoryTest do
   end
 
   test "returns Bittrex.MarketHistory struct" do
-    InMemoryClient.push({:ok, [%{
+    InMemoryClient.push(%Response{status: :ok, body: [%{
       "Id" => 319435,
       "TimeStamp" => "2014-07-09T03:21:20.08",
       "Quantity" => 0.30802438,

@@ -3,7 +3,7 @@ defmodule Bittrex.Client.HttpClient do
   Implementation of Bittrex client for production
   """
 
-  alias Bittrex.Request
+  alias Bittrex.{Request, Response}
 
   @behaviour Bittrex.Client
 
@@ -69,9 +69,9 @@ defmodule Bittrex.Client.HttpClient do
 
   defp format_response({:ok, data}) do
     case data["success"] do
-      true -> {:ok, data["result"]}
-      false -> {:error, data["message"]}
+      true -> %Response{status: :ok, body: data["result"]}
+      false -> %Response{status: :error, body: data["message"]}
     end
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response({:error, reason}), do: %Response{status: :error, body: reason}
 end

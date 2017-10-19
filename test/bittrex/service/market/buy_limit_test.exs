@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Market.BuyLimitTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order}
+  alias Bittrex.{Market, Order, Response}
   alias Bittrex.Service.Market.BuyLimit
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Market.BuyLimitTest do
   end
 
   test "creates buy order" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "uuid" => "e606d53c-8d70-11e3-94b5-425861b86ab6"
     }})
 

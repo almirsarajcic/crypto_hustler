@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetWithdrawalHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Withdrawal}
+  alias Bittrex.{Currency, Response, Withdrawal}
 
   def call(currency = %Currency{} \\ %Currency{}) do
     Request.new("/account/getwithdrawalhistory", get_params(currency))
@@ -14,11 +14,11 @@ defmodule Bittrex.Service.Account.GetWithdrawalHistory do
   def get_params(%Currency{code: nil}), do: %{}
   def get_params(%Currency{code: code}), do: %{currency: code}
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = Enum.map(result, &parse_withdrawal/1)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   def parse_withdrawal(result) do
     %Withdrawal{

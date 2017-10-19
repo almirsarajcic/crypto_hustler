@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.Withdraw do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Withdrawal}
+  alias Bittrex.{Currency, Response, Withdrawal}
 
   def call(%Currency{code: code}, quantity, address) do
     Request.new("/account/withdraw", %{currency: code, quantity: quantity, address: address})
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Account.Withdraw do
     |> format_response()
   end
 
-  defp format_response({:ok, result}) do
+  defp format_response(%Response{status: :ok, body: result}) do
     response = parse_withdrawal(result)
     {:ok, response}
   end
-  defp format_response({:error, reason}), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
 
   defp parse_withdrawal(result) do
     %Withdrawal{

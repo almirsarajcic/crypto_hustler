@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetCurrenciesTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.Currency
+  alias Bittrex.{Currency, Response}
   alias Bittrex.Service.Public.GetCurrencies
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetCurrenciesTest do
   end
 
   test "returns list of Bittrex.Currency structs" do
-    InMemoryClient.push({:ok, [%{
+    InMemoryClient.push(%Response{status: :ok, body: [%{
       "Currency" => "BTC",
       "CurrencyLong" => "Bitcoin",
       "MinConfirmation" => 2,

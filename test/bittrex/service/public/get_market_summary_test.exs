@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, MarketSummary, Ticker}
+  alias Bittrex.{Market, MarketSummary, Response, Ticker}
   alias Bittrex.Service.Public.GetMarketSummary
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
   end
 
   test "returns Bittrex.MarketSummary struct" do
-    InMemoryClient.push({:ok, [%{
+    InMemoryClient.push(%Response{status: :ok, body: [%{
       "MarketName" => "BTC-LTC",
       "High" => 0.01350000,
       "Low" => 0.01200000,

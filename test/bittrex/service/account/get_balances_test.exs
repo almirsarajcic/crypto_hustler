@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetBalancesTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Balance, Currency}
+  alias Bittrex.{Balance, Currency, Response}
   alias Bittrex.Service.Account.GetBalances
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Account.GetBalancesTest do
   end
 
   test "returns list of Bittrex.Balance structs" do
-    InMemoryClient.push({:ok, [%{
+    InMemoryClient.push(%Response{status: :ok, body: [%{
       "Currency" => "DOGE",
       "Balance" => 0.00000000,
       "Available" => 0.00000000,

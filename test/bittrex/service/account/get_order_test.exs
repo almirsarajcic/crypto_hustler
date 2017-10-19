@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetOrderTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order}
+  alias Bittrex.{Market, Order, Response}
   alias Bittrex.Service.Account.GetOrder
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Account.GetOrderTest do
   end
 
   test "returns Bittrex.Order struct" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "AccountId" => nil,
       "OrderUuid" => "0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1",
       "Exchange" => "BTC-SHLD",

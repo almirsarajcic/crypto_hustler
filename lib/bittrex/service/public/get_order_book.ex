@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetOrderBook do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order, OrderBook}
+  alias Bittrex.{Market, Order, OrderBook, Response}
 
   def call(%Market{name: name}, type) do
     Request.new("/public/getorderbook", %{market: name, type: type})
@@ -9,11 +9,11 @@ defmodule Bittrex.Service.Public.GetOrderBook do
     |> format_response(type)
   end
 
-  defp format_response({:ok, result}, type) do
+  defp format_response(%Response{status: :ok, body: result}, type) do
     response = parse_order_book(result, type)
     {:ok, response}
   end
-  defp format_response({:error, reason}, _), do: {:error, reason}
+  defp format_response(%Response{status: :error, body: reason}, _), do: {:error, reason}
 
   defp parse_order_book(result, type) do
     if type == "both" do

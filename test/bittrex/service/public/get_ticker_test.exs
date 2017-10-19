@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetTickerTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Ticker}
+  alias Bittrex.{Market, Ticker, Response}
   alias Bittrex.Service.Public.GetTicker
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Public.GetTickerTest do
   end
 
   test "returns Bittrex.Ticker" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "Bid" => 2.05670368,
       "Ask" => 3.35579531,
       "Last" => 3.35579531

@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetDepositAddressTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, DepositAddress}
+  alias Bittrex.{Currency, DepositAddress, Response}
   alias Bittrex.Service.Account.GetDepositAddress
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Account.GetDepositAddressTest do
   end
 
   test "returns Bittrex.DepositAddress struct" do
-    InMemoryClient.push({:ok, %{
+    InMemoryClient.push(%Response{status: :ok, body: %{
       "Currency" => "VTC",
       "Address" => "Vy5SKeKGXUHKS2WVpJ76HYuKAu3URastUo",
     }})

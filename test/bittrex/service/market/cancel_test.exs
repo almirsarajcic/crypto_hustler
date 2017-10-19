@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Market.CancelTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.Order
+  alias Bittrex.{Order, Response}
   alias Bittrex.Service.Market.Cancel
 
   setup do
@@ -11,7 +11,7 @@ defmodule Bittrex.Service.Market.CancelTest do
   end
 
   test "cancels order" do
-    InMemoryClient.push({:ok, nil})
+    InMemoryClient.push(%Response{status: :ok, body: nil})
 
     assert {:ok, nil} = Cancel.call(%Order{uuid: "614c34e4-8d71-11e3-94b5-425861b86ab6"})
   end

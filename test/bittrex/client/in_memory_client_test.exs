@@ -2,6 +2,7 @@ defmodule Bittrex.Client.InMemoryClientTest do
   use ExUnit.Case, async: true
 
   alias Bittrex.Client.InMemoryClient
+  alias Bittrex.Response
 
   setup do
     InMemoryClient.delete_all()
@@ -15,25 +16,25 @@ defmodule Bittrex.Client.InMemoryClientTest do
   end
 
   test "push a response to the stack" do
-    InMemoryClient.push({:ok, nil})
+    InMemoryClient.push(%Response{})
     assert InMemoryClient.all() |> Enum.count() == 1
   end
 
   test "pop a response from the stack" do
-    InMemoryClient.push({:error, 1})
-    InMemoryClient.push({:ok, 2})
+    InMemoryClient.push(%Response{status: :error})
+    InMemoryClient.push(%Response{status: :ok})
     assert InMemoryClient.all() |> Enum.count() == 2
 
-    assert {:ok, 2} = InMemoryClient.pop()
+    assert %Response{status: :ok} = InMemoryClient.pop()
     assert InMemoryClient.all() |> Enum.count() == 1
 
-    assert {:error, 1} = InMemoryClient.pop()
+    assert %Response{status: :error} = InMemoryClient.pop()
     assert InMemoryClient.all() |> Enum.count() == 0
   end
 
   test "delete all responses from the stack" do
-    InMemoryClient.push({:ok, nil})
-    InMemoryClient.push({:error, nil})
+    InMemoryClient.push(%Response{})
+    InMemoryClient.push(%Response{})
     assert InMemoryClient.all() |> Enum.count() == 2
 
     InMemoryClient.delete_all()
