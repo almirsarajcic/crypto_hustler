@@ -32,6 +32,10 @@ defmodule Bittrex.Client.InMemoryClientTest do
     assert InMemoryClient.all() |> Enum.count() == 0
   end
 
+  test "pop doesn't fail when there are no responses in the stack" do
+    assert InMemoryClient.pop() == nil
+  end
+
   test "delete all responses from the stack" do
     InMemoryClient.push(%Response{})
     InMemoryClient.push(%Response{})
