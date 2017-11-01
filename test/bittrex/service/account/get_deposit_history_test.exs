@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetDepositHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Deposit, Response}
+  alias Bittrex.{Currency, Deposit, Request, Response}
   alias Bittrex.Service.Account.GetDepositHistory
 
   setup do
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Account.GetDepositHistoryTest do
     :ok
   end
 
-  test "returns list of Bittrex.Deposit structs" do
+  test "sends request to /account/getdeposithistory and returns list of Bittrex.Deposit structs" do
     InMemoryClient.push(%Response{status: :ok, body: [%{
       "Amount" => 0.16240000,
       "Confirmations" => 2,
@@ -31,5 +31,9 @@ defmodule Bittrex.Service.Account.GetDepositHistoryTest do
       updated_at: ~N[2017-09-23 14:50:00.797],
       transaction_id: "5deff882b647a3e5b754c41czdfc7f663b0a223bf879bdd24e077ad65b28a5af",
     }]} = GetDepositHistory.call(%Currency{code: "BTC"})
+
+    # TODO check that GetDepositHistory.call() sends requests without params
+    assert %Request{endpoint: "/account/getdeposithistory", params: params} = InMemoryClient.pop()
+    assert params == %{currency: "BTC"}
   end
 end

@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Public.GetTickerTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Ticker, Response}
+  alias Bittrex.{Market, Ticker, Request, Response}
   alias Bittrex.Service.Public.GetTicker
 
   setup do
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Public.GetTickerTest do
     :ok
   end
 
-  test "returns Bittrex.Ticker" do
+  test "sends request to /public/getticker and returns Bittrex.Ticker" do
     InMemoryClient.push(%Response{status: :ok, body: %{
       "Bid" => 2.05670368,
       "Ask" => 3.35579531,
@@ -22,5 +22,8 @@ defmodule Bittrex.Service.Public.GetTickerTest do
       ask: 3.35579531,
       last: 3.35579531,
     }} = GetTicker.call(%Market{name: "BTC-LTC"})
+
+    assert %Request{endpoint: "/public/getticker", params: params} = InMemoryClient.pop()
+    assert params == %{market: "BTC-LTC"}
   end
 end

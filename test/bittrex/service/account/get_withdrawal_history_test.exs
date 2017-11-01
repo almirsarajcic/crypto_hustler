@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetWithdrawalHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Response, Withdrawal}
+  alias Bittrex.{Currency, Request, Response, Withdrawal}
   alias Bittrex.Service.Account.GetWithdrawalHistory
 
   setup do
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Account.GetWithdrawalHistoryTest do
     :ok
   end
 
-  test "returns list of Bittrex.Withdrawal structs" do
+  test "sends request to /account/getwithdrawalhistory and returns list of Bittrex.Withdrawal structs" do
     InMemoryClient.push(%Response{status: :ok, body: [%{
       "PaymentUuid" => "b52c7a5c-90c6-4c6e-835c-e16df12708b1",
       "Currency" => "BTC",
@@ -66,5 +66,9 @@ defmodule Bittrex.Service.Account.GetWithdrawalHistoryTest do
       canceled: false,
       invalid_address: false,
     }]} = GetWithdrawalHistory.call(%Currency{code: "BTC"})
+
+    # TODO check that GetWithdrawalHistory.call() sends requests without params
+    assert %Request{endpoint: "/account/getwithdrawalhistory", params: params} = InMemoryClient.pop()
+    assert params == %{currency: "BTC"}
   end
 end

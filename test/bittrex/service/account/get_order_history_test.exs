@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Account.GetOrderHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order, Response}
+  alias Bittrex.{Market, Order, Request, Response}
   alias Bittrex.Service.Account.GetOrderHistory
 
   setup do
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Account.GetOrderHistoryTest do
     :ok
   end
 
-  test "returns list of Bittrex.Order structs" do
+  test "sends request to /account/getorderhistory and returns list of Bittrex.Order structs" do
     InMemoryClient.push(%Response{status: :ok, body: [%{
       "OrderUuid" => "fd97d393-e9b9-4dd1-9dbf-f288fc72a185",
       "Exchange" => "BTC-LTC",
@@ -78,5 +78,9 @@ defmodule Bittrex.Service.Account.GetOrderHistoryTest do
       condition_target: nil,
       immediate_or_cancel: false,
     }]} = GetOrderHistory.call()
+
+    # TODO check that GetOrderHistory.call() sends requests with market in params
+    assert %Request{endpoint: "/account/getorderhistory", params: params} = InMemoryClient.pop()
+    assert params == %{}
   end
 end

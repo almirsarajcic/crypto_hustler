@@ -7,8 +7,10 @@ defmodule Bittrex.Client.InMemoryClient do
 
   @behaviour Bittrex.Client
 
-  def send(_request, _config) do
-    pop()
+  def send(request, _config) do
+    response = pop()
+    push(request)
+    response
   end
 
   def start_link() do
@@ -19,8 +21,8 @@ defmodule Bittrex.Client.InMemoryClient do
     GenServer.stop(__MODULE__)
   end
 
-  def push(response) do
-    GenServer.call(__MODULE__, {:push, response})
+  def push(item) do
+    GenServer.call(__MODULE__, {:push, item})
   end
 
   def pop() do
@@ -41,8 +43,8 @@ defmodule Bittrex.Client.InMemoryClient do
     {:ok, []}
   end
 
-  def handle_call({:push, response}, _from, responses) do
-    {:reply, response, [response] ++ responses}
+  def handle_call({:push, item}, _from, stack) do
+    {:reply, item, [item] ++ stack}
   end
 
   def handle_call(:pop, _from, []) do
@@ -52,11 +54,11 @@ defmodule Bittrex.Client.InMemoryClient do
     {:reply, head, tail}
   end
 
-  def handle_call(:all, _from, responses) do
-    {:reply, responses, responses}
+  def handle_call(:all, _from, stack) do
+    {:reply, stack, stack}
   end
 
-  def handle_call(:delete_all, _from, _responses) do
+  def handle_call(:delete_all, _from, _stack) do
     {:reply, :ok, []}
   end
 end

@@ -2,7 +2,7 @@ defmodule Bittrex.Service.Market.GetOpenOrdersTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order, Response}
+  alias Bittrex.{Market, Order, Request, Response}
   alias Bittrex.Service.Market.GetOpenOrders
 
   setup do
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Market.GetOpenOrdersTest do
     :ok
   end
 
-  test "returns list of Bittrex.Order structs" do
+  test "sends request to /market/getopenorders and returns list of Bittrex.Order structs" do
     InMemoryClient.push(%Response{status: :ok, body: [%{
       "Uuid" => nil,
       "OrderUuid" => "09aa5bb6-8232-41aa-9b78-a5a1093e0211",
@@ -88,5 +88,8 @@ defmodule Bittrex.Service.Market.GetOpenOrdersTest do
       condition: nil,
       condition_target: nil,
     }]} = GetOpenOrders.call(%Market{name: "BTC-LTC"})
+
+    assert %Request{endpoint: "/market/getopenorders", params: params} = InMemoryClient.pop()
+    assert params == %{market: "BTC-LTC"}
   end
 end
