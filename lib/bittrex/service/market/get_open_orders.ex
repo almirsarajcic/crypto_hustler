@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Market.GetOpenOrders do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order, Response}
+  alias Bittrex.Data.{Market, Order}
 
   def call(%Market{name: name} \\ %Market{name: nil}) do
     Request.new("/market/getopenorders", %{market: name})

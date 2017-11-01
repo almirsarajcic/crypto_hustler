@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetOrderHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order, Response}
+  alias Bittrex.Data.{Market, Order}
 
   def call(market = %Market{} \\ %Market{}) do
     Request.new("/account/getorderhistory", get_params(market))

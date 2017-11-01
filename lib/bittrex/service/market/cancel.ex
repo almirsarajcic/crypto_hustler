@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Market.Cancel do
   use Bittrex.Service
 
-  alias Bittrex.{Order, Response}
+  alias Bittrex.Data.Order
 
   def call(%Order{uuid: uuid}) do
     Request.new("/market/cancel", %{uuid: uuid})

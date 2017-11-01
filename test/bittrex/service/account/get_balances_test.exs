@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Account.GetBalancesTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Balance, Currency, Request, Response}
+  alias Bittrex.Data.{Balance, Currency}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Account.GetBalances
 
   setup do

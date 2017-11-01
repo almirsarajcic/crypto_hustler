@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Public.GetCurrenciesTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Request, Response}
+  alias Bittrex.Data.Currency
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Public.GetCurrencies
 
   setup do

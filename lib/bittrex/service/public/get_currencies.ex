@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetCurrencies do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Response}
+  alias Bittrex.Data.Currency
 
   def call do
     Request.new("/public/getcurrencies")

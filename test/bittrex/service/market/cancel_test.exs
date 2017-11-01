@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Market.CancelTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Order, Request, Response}
+  alias Bittrex.Data.Order
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Market.Cancel
 
   setup do

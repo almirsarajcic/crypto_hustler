@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Account.GetDepositAddressTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, DepositAddress, Request, Response}
+  alias Bittrex.Data.{Currency, DepositAddress}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Account.GetDepositAddress
 
   setup do

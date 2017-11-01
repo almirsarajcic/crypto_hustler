@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetMarkets do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Market, Response}
+  alias Bittrex.Data.{Currency, Market}
 
   def call do
     Request.new("/public/getmarkets")

@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetTicker do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Response, Ticker}
+  alias Bittrex.Data.{Market, Ticker}
 
   def call(%Market{name: name}) do
     Request.new("/public/getticker", %{market: name})

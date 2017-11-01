@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Public.GetTickerTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Ticker, Request, Response}
+  alias Bittrex.Data.{Market, Ticker}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Public.GetTicker
 
   setup do

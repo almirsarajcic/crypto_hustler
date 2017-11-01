@@ -1,5 +1,5 @@
-defmodule Bittrex.MarketSummary do
-  alias Bittrex.{Market, Ticker}
+defmodule Bittrex.Data.MarketSummary do
+  alias Bittrex.Data.{Market, Ticker}
 
   defstruct [:market, :ticker, :high, :low, :previous_day, :volume, :base_volume, :open_buy_orders, :open_sell_orders]
 

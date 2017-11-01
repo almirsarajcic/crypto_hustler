@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetWithdrawalHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Response, Withdrawal}
+  alias Bittrex.Data.{Currency, Withdrawal}
 
   def call(currency = %Currency{} \\ %Currency{}) do
     Request.new("/account/getwithdrawalhistory", get_params(currency))

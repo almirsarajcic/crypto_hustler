@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Account.WithdrawTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Request, Response, Withdrawal}
+  alias Bittrex.Data.{Currency, Withdrawal}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Account.Withdraw
 
   setup do

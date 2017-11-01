@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetBalances do
   use Bittrex.Service
 
-  alias Bittrex.{Balance, Response}
+  alias Bittrex.Data.Balance
 
   def call do
     Request.new("/account/getbalances")

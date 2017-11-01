@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetMarketHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Market, MarketHistory, Response}
+  alias Bittrex.Data.{Market, MarketHistory}
 
   def call(%Market{name: name}) do
     Request.new("/public/getmarkethistory", %{market: name})

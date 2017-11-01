@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetBalance do
   use Bittrex.Service
 
-  alias Bittrex.{Balance, Currency, Response}
+  alias Bittrex.Data.{Balance, Currency}
 
   def call(%Currency{code: code}) do
     Request.new("/account/getbalance", %{currency: code})

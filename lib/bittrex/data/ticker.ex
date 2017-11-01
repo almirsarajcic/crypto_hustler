@@ -1,3 +1,3 @@
-defmodule Bittrex.Ticker do
+defmodule Bittrex.Data.Ticker do
   defstruct [:bid, :ask, :last]
 end

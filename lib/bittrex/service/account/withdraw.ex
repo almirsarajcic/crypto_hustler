@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.Withdraw do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Response, Withdrawal}
+  alias Bittrex.Data.{Currency, Withdrawal}
 
   def call(%Currency{code: code}, quantity, address) do
     Request.new("/account/withdraw", %{currency: code, quantity: quantity, address: address})

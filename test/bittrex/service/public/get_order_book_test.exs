@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, Order, OrderBook, Request, Response}
+  alias Bittrex.Data.{Market, Order, OrderBook}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Public.GetOrderBook
 
   setup do

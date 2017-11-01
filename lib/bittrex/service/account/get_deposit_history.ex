@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetDepositHistory do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, Deposit, Response}
+  alias Bittrex.Data.{Currency, Deposit}
 
   def call(currency = %Currency{} \\ %Currency{}) do
     Request.new("/account/getdeposithistory", get_params(currency))

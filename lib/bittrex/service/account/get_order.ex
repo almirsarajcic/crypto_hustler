@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetOrder do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order, Response}
+  alias Bittrex.Data.{Market, Order}
 
   def call(%Order{uuid: uuid}) do
     Request.new("/account/getorder", %{uuid: uuid})

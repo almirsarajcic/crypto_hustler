@@ -1,3 +1,3 @@
-defmodule Bittrex.Currency do
+defmodule Bittrex.Data.Currency do
   defstruct [:code, :name, :active, :transaction_fee, :minimum_confirmation, :coin_type, :base_address]
 end

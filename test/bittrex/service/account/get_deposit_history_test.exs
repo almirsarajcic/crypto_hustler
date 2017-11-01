@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Account.GetDepositHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Currency, Deposit, Request, Response}
+  alias Bittrex.Data.{Currency, Deposit}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Account.GetDepositHistory
 
   setup do

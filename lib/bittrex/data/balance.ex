@@ -1,5 +1,5 @@
-defmodule Bittrex.Balance do
-  alias Bittrex.Currency
+defmodule Bittrex.Data.Balance do
+  alias Bittrex.Data.Currency
 
   defstruct [:currency, :balance, :available, :pending, :crypto_address, :requested, :uuid]
 

@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, MarketSummary, Request, Response, Ticker}
+  alias Bittrex.Data.{Market, MarketSummary, Ticker}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Public.GetMarketSummary
 
   setup do

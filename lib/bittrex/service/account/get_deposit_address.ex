@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetDepositAddress do
   use Bittrex.Service
 
-  alias Bittrex.{Currency, DepositAddress, Response}
+  alias Bittrex.Data.{Currency, DepositAddress}
 
   def call(%Currency{code: code}) do
     Request.new("/account/getdepositaddress", %{currency: code})

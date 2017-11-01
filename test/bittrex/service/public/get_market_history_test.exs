@@ -2,7 +2,8 @@ defmodule Bittrex.Service.Public.GetMarketHistoryTest do
   use ExUnit.Case
 
   alias Bittrex.Client.InMemoryClient
-  alias Bittrex.{Market, MarketHistory, Request, Response}
+  alias Bittrex.Data.{Market, MarketHistory}
+  alias Bittrex.{Request, Response}
   alias Bittrex.Service.Public.GetMarketHistory
 
   setup do

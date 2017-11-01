@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Public.GetOrderBook do
   use Bittrex.Service
 
-  alias Bittrex.{Market, Order, OrderBook, Response}
+  alias Bittrex.Data.{Market, Order, OrderBook}
 
   def call(%Market{name: name}, type) do
     Request.new("/public/getorderbook", %{market: name, type: type})
