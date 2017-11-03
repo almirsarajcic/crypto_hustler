@@ -20,6 +20,7 @@ use Mix.Config
 #
 #     config :logger, level: :info
 #
+config :crypto_hustler, :bittrex, client: Bittrex.Client.HttpClient
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
@@ -27,4 +28,7 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+import_config "#{Mix.env}.exs"
+if File.exists? "config/#{Mix.env}.secret.exs" do
+  import_config "#{Mix.env}.secret.exs"
+end
