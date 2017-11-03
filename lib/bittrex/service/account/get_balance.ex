@@ -1,7 +1,8 @@
 defmodule Bittrex.Service.Account.GetBalance do
   use Bittrex.Service
 
-  alias Bittrex.Data.{Balance, Currency}
+  alias Bittrex.Data.Currency
+  alias Bittrex.Parser.BalanceParser
 
   def call(%Currency{code: code}) do
     Request.new("/account/getbalance", %{currency: code})
@@ -10,7 +11,7 @@ defmodule Bittrex.Service.Account.GetBalance do
   end
 
   defp format_response(%Response{status: :ok, body: result}) do
-    response = Balance.new(result)
+    response = BalanceParser.call(result)
     {:ok, response}
   end
   defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}

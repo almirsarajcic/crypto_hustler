@@ -1,7 +1,7 @@
 defmodule Bittrex.Service.Account.GetBalances do
   use Bittrex.Service
 
-  alias Bittrex.Data.Balance
+  alias Bittrex.Parser.BalanceParser
 
   def call do
     Request.new("/account/getbalances")
@@ -10,7 +10,7 @@ defmodule Bittrex.Service.Account.GetBalances do
   end
 
   defp format_response(%Response{status: :ok, body: result}) do
-    response = Enum.map(result, &Balance.new/1)
+    response = Enum.map(result, &BalanceParser.call/1)
     {:ok, response}
   end
   defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}

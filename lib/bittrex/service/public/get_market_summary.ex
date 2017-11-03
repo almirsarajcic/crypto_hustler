@@ -1,7 +1,8 @@
 defmodule Bittrex.Service.Public.GetMarketSummary do
   use Bittrex.Service
 
-  alias Bittrex.Data.{Market, MarketSummary}
+  alias Bittrex.Data.Market
+  alias Bittrex.Parser.MarketSummaryParser
 
   def call(%Market{name: name}) do
     Request.new("/public/getmarketsummary", %{market: name})
@@ -10,7 +11,7 @@ defmodule Bittrex.Service.Public.GetMarketSummary do
   end
 
   defp format_response(%Response{status: :ok, body: [result]}) do
-    response = MarketSummary.new(result)
+    response = MarketSummaryParser.call(result)
     {:ok, response}
   end
   defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}

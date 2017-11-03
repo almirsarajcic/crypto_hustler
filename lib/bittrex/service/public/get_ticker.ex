@@ -1,7 +1,8 @@
 defmodule Bittrex.Service.Public.GetTicker do
   use Bittrex.Service
 
-  alias Bittrex.Data.{Market, Ticker}
+  alias Bittrex.Data.Market
+  alias Bittrex.Parser.TickerParser
 
   def call(%Market{name: name}) do
     Request.new("/public/getticker", %{market: name})
@@ -10,16 +11,8 @@ defmodule Bittrex.Service.Public.GetTicker do
   end
 
   defp format_response(%Response{status: :ok, body: result}) do
-    response = parse_ticker(result)
+    response = TickerParser.call(result)
     {:ok, response}
   end
   defp format_response(%Response{status: :error, body: reason}), do: {:error, reason}
-
-  defp parse_ticker(result) do
-    %Ticker{
-      bid: result["Bid"],
-      ask: result["Ask"],
-      last: result["Last"],
-    }
-  end
 end
