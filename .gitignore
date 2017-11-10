@@ -22,3 +22,6 @@ erl_crash.dump
 # Ignore sensitive data
 /config/prod.secret.exs
 /config/dev.secret.exs
+
+# Atom IDE stuff
+.elixir_ls
