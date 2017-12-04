@@ -90,7 +90,7 @@ defmodule Bittrex.Service.Market.GetOpenOrdersTest do
       condition_target: nil,
     }]} = GetOpenOrders.call(%Market{name: "BTC-LTC"})
 
-    assert %Request{endpoint: "/market/getopenorders", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/market/getopenorders", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC"}
   end
 end

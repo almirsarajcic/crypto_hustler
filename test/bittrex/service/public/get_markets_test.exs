@@ -60,7 +60,7 @@ defmodule Bittrex.Service.Public.GetMarketsTest do
       },
     }]} = GetMarkets.call()
 
-    assert %Request{endpoint: "/public/getmarkets", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getmarkets", params: params}] = InMemoryClient.requests()
     assert params == %{}
   end
 end

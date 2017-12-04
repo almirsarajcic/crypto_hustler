@@ -81,7 +81,7 @@ defmodule Bittrex.Service.Account.GetOrderHistoryTest do
     }]} = GetOrderHistory.call()
 
     # TODO check that GetOrderHistory.call() sends requests with market in params
-    assert %Request{endpoint: "/account/getorderhistory", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getorderhistory", params: params}] = InMemoryClient.requests()
     assert params == %{}
   end
 end

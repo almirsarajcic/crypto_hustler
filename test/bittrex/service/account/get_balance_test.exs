@@ -34,7 +34,7 @@ defmodule Bittrex.Service.Account.GetBalanceTest do
       uuid: nil,
     }} = GetBalance.call(%Currency{code: "BTC"})
 
-    assert %Request{endpoint: "/account/getbalance", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getbalance", params: params}] = InMemoryClient.requests()
     assert params == %{currency: "BTC"}
   end
 end

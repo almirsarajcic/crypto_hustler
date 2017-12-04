@@ -48,7 +48,7 @@ defmodule Bittrex.Service.Public.GetMarketSummaryTest do
       open_sell_orders: 45,
     }} = GetMarketSummary.call(%Market{name: "BTC-LTC"})
 
-    assert %Request{endpoint: "/public/getmarketsummary", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getmarketsummary", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC"}
   end
 end

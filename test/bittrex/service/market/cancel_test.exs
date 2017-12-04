@@ -16,7 +16,7 @@ defmodule Bittrex.Service.Market.CancelTest do
 
     assert {:ok, nil} = Cancel.call(%Order{uuid: "614c34e4-8d71-11e3-94b5-425861b86ab6"})
 
-    assert %Request{endpoint: "/market/cancel", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/market/cancel", params: params}] = InMemoryClient.requests()
     assert params == %{uuid: "614c34e4-8d71-11e3-94b5-425861b86ab6"}
   end
 end

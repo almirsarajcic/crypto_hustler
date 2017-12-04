@@ -20,7 +20,7 @@ defmodule Bittrex.Service.Account.WithdrawTest do
       uuid: "68b5a16c-92de-11e3-ba3b-425861b86ab6",
     }} = Withdraw.call(%Currency{code: "EAC"}, 20.40, "EAC_ADDRESS")
 
-    assert %Request{endpoint: "/account/withdraw", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/withdraw", params: params}] = InMemoryClient.requests()
     assert params == %{currency: "EAC", quantity: 20.40, address: "EAC_ADDRESS"}
   end
 end

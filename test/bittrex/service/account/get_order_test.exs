@@ -66,7 +66,7 @@ defmodule Bittrex.Service.Account.GetOrderTest do
       condition_target: nil,
     }} = GetOrder.call(%Order{uuid: "0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1"})
 
-    assert %Request{endpoint: "/account/getorder", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getorder", params: params}] = InMemoryClient.requests()
     assert params == %{uuid: "0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1"}
   end
 end

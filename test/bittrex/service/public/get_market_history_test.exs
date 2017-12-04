@@ -80,7 +80,7 @@ defmodule Bittrex.Service.Public.GetMarketHistoryTest do
       order_type: "BUY",
     }]} = GetMarketHistory.call(%Market{name: "BTC-DOGE"})
 
-    assert %Request{endpoint: "/public/getmarkethistory", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getmarkethistory", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-DOGE"}
   end
 end
