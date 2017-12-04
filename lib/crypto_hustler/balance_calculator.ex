@@ -1,12 +1,7 @@
 defmodule CryptoHustler.BalanceCalculator do
   alias Bittrex.Data.{Currency, Market, MarketSummary, Ticker}
-  alias Bittrex.Service.Account.GetBalances
-  alias Bittrex.Service.Public.GetMarketSummaries
 
-  def get_estimated_btc_balance do
-    {:ok, balances} = GetBalances.call()
-    {:ok, market_summaries} = GetMarketSummaries.call()
-
+  def get_estimated_btc_balance(balances, market_summaries) do
     Float.round(calculate_btc_balance(market_summaries, balances), 8)
   end
 
