@@ -4,17 +4,16 @@ defmodule CryptoHustler.CoinFilter do
   def find_new_currencies(orders, currencies, new_currencies \\ [])
   def find_new_currencies(_, [], new_currencies), do: new_currencies
   def find_new_currencies(orders, [head|tail], new_currencies) do
-    unless !is_active(head) || is_btc(head) || has_been_traded(head.code, orders) do
+    if valid_currency(head) && !has_been_traded(head.code, orders) do
       new_currencies = [head|new_currencies]
     end
 
     find_new_currencies(orders, tail, new_currencies)
   end
 
-  defp is_active(%Currency{active: active}), do: active
-
-  defp is_btc(%Currency{code: "BTC"}), do: true
-  defp is_btc(_), do: false
+  defp valid_currency(%Currency{active: false}), do: false
+  defp valid_currency(%Currency{code: "BTC"}), do: false
+  defp valid_currency(_), do: true
 
   defp has_been_traded(_, []), do: false
   defp has_been_traded(currency_code, [head|tail]) do
