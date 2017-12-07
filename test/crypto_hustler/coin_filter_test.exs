@@ -2,7 +2,7 @@ defmodule CryptoHustler.CoinFinderTest do
   use ExUnit.Case
 
   alias Bittrex.Data.{Currency, Market, Order}
-  alias CryptoHustler.CoinFinder
+  alias CryptoHustler.CoinFilter
 
   test "finds new coins to buy" do
     currencies = [%Currency{
@@ -37,6 +37,14 @@ defmodule CryptoHustler.CoinFinderTest do
       minimum_confirmation: 6,
       name: "BlackCoin",
       transaction_fee: 0.02,
+    }, %Currency{
+      active: false,
+      base_address: nil,
+      code: "OC",
+      coin_type: "BITCOIN",
+      minimum_confirmation: 20,
+      name: "OrangeCoin",
+      transaction_fee: 0.2
     }]
     order_history = [%Order{
       account_id: nil,
@@ -152,6 +160,6 @@ defmodule CryptoHustler.CoinFinderTest do
       minimum_confirmation: 6,
       name: "Litecoin",
       transaction_fee: 0.01,
-    }] = CoinFinder.find_new_currencies(order_history, currencies)
+    }] = CoinFilter.find_new_currencies(order_history, currencies)
   end
 end
