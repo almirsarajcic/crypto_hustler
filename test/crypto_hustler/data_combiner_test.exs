@@ -37,14 +37,6 @@ defmodule CryptoHustler.DataMergerTest do
       minimum_confirmation: 20,
       name: "OrangeCoin",
       transaction_fee: 0.2,
-    }, %Currency{
-      active: false,
-      base_address: "1DUb2YYbQA1jjaNYzVXLZ7ZioEhLXtbUru",
-      code: "USDT",
-      coin_type: "OMNI",
-      minimum_confirmation: 2,
-      name: "Tether",
-      transaction_fee: 5.0,
     }]
     markets = [%Market{
       active: true,
@@ -115,32 +107,32 @@ defmodule CryptoHustler.DataMergerTest do
       },
       minimum_trade: 0.02980626,
       name: "USDT-LTC",
-    }]
-
-    assert [%Market{
+    }, %Market{
       active: true,
       base_currency: %Currency{
-        active: false,
-        base_address: "1DUb2YYbQA1jjaNYzVXLZ7ZioEhLXtbUru",
-        code: "USDT",
-        coin_type: "OMNI",
-        minimum_confirmation: 2,
-        name: "Tether",
-        transaction_fee: 5.0,
+        active: true,
+        base_address: nil,
+        code: "BTC",
+        coin_type: nil,
+        minimum_confirmation: nil,
+        name: "Bitcoin",
+        transaction_fee: nil,
       },
-      created_at: ~N[2017-07-14 17:10:10.72],
+      created_at: ~N[2014-08-20 07:09:57.207],
       market_currency: %Currency{
         active: true,
-        base_address: "LhyLNfBkoKshT7R8Pce6vkB9T2cP2o84hx",
-        code: "LTC",
-        coin_type: "BITCOIN",
-        minimum_confirmation: 6,
-        name: "Litecoin",
-        transaction_fee: 0.01,
+        base_address: nil,
+        code: "DGB",
+        coin_type: nil,
+        minimum_confirmation: nil,
+        name: "Digibyte",
+        transaction_fee: nil,
       },
-      minimum_trade: 0.02980626,
-      name: "USDT-LTC",
-    }, %Market{
+      minimum_trade: 225.22522523,
+      name: "BTC-DGB",
+    }, ]
+
+    assert [%Market{
       active: true,
       base_currency: %Currency{
         active: true,
@@ -371,6 +363,43 @@ defmodule CryptoHustler.DataMergerTest do
         last: 90.89519998,
       },
       volume: 76753.99773865,
+    }, %MarketSummary{
+      base_volume: 39.55762541,
+      high: 2.824e-5,
+      low: 1.8e-5,
+      market: %Market{
+        active: nil,
+        base_currency: %Currency{
+          active: nil,
+          base_address: nil,
+          code: nil,
+          coin_type: nil,
+          minimum_confirmation: nil,
+          name: nil,
+          transaction_fee: nil,
+        },
+        created_at: ~N[2017-06-06 01:22:35.727],
+        market_currency: %Currency{
+          active: nil,
+          base_address: nil,
+          code: nil,
+          coin_type: nil,
+          minimum_confirmation: nil,
+          name: nil,
+          transaction_fee: nil
+        },
+        minimum_trade: nil,
+        name: "BTC-1ST"
+      },
+      open_buy_orders: 79,
+      open_sell_orders: 3498,
+      previous_day: 2.738e-5,
+      ticker: %Ticker{
+        ask: 2.325e-5,
+        bid: 2.277e-5,
+        last: 2.275e-5
+      },
+      volume: 1790098.90279788
     }]
 
     assert [%MarketSummary{
