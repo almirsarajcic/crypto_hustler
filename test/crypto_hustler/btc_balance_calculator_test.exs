@@ -1,13 +1,13 @@
-defmodule CryptoHustler.BalanceCalculatorTest do
+defmodule CryptoHustler.BtcBalanceCalculatorTest do
   use ExUnit.Case
 
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Ticker}
-  alias CryptoHustler.BalanceCalculator
+  alias CryptoHustler.{BtcBalance, BtcBalanceCalculator}
 
   test "calculates estimated BTC balance based on current prices" do
     balances = [%Balance{
-      available: 0.00000003,
-      balance: 0.00000003,
+      available: 0.00900003,
+      balance: 0.01000003,
       crypto_address: "wAll3Taddr355",
       currency: %Currency{
         code: "BTC",
@@ -98,6 +98,10 @@ defmodule CryptoHustler.BalanceCalculatorTest do
       volume: 42433675.0310635,
     }]
 
-    assert BalanceCalculator.get_estimated_btc_balance(balances, market_summaries) == 0.00333420
+    assert %BtcBalance{
+      real: 0.01000003,
+      estimated: 0.01333420,
+      available: 0.00099951,
+    } = BtcBalanceCalculator.calculate(balances, market_summaries)
   end
 end
