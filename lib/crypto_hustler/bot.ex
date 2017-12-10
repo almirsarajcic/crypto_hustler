@@ -1,12 +1,16 @@
 defmodule CryptoHustler.Bot do
   alias Bittrex.Service.Account.GetBalances
-  alias Bittrex.Service.Market.BuyLimit
+  alias Bittrex.Service.Market.{BuyLimit, Cancel, GetOpenOrders}
   alias Bittrex.Service.Public.{GetCurrencies, GetMarkets, GetMarketSummaries}
   alias CryptoHustler.{BtcBalanceCalculator, DataCombiner, MarketFilter, OrderPreparator}
 
   @minimum_trade 0.00050000
 
   def hustle do
+    {:ok, open_orders} = GetOpenOrders.call()
+    OrderPreparator.prepare_stale_buy_orders(open_orders)
+    |> Enum.each(&Cancel.call/1)
+
     {:ok, balances} = GetBalances.call()
     {:ok, market_summaries} = GetMarketSummaries.call()
 

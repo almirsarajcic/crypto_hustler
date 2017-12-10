@@ -15,6 +15,18 @@ defmodule CryptoHustler.OrderPreparator do
     end
   end
 
+  def prepare_stale_buy_orders(open_orders, datetime \\ NaiveDateTime.utc_now(), orders_to_cancel \\ [])
+  def prepare_stale_buy_orders([], _, orders_to_cancel), do: orders_to_cancel
+  def prepare_stale_buy_orders([head|tail], datetime, orders_to_cancel) do
+    %Order{cancel_initiated: cancel_initiated, opened_at: opened_at, order_type: order_type} = head
+
+    if !cancel_initiated && order_type == "LIMIT_BUY" && is_stale(opened_at, datetime) do
+      prepare_stale_buy_orders(tail, datetime, [head|orders_to_cancel])
+    else
+      prepare_stale_buy_orders(tail, datetime, orders_to_cancel)
+    end
+  end
+
   defp number_of_coins(available_btc_balance, number_of_coins \\ @number_of_coins) do
     if available_btc_balance / number_of_coins >= @minimum_trade do
       number_of_coins
@@ -39,5 +51,9 @@ defmodule CryptoHustler.OrderPreparator do
     else
       prepare(tail, number_of_coins, available_per_coin, prepared_orders)
     end
+  end
+
+  defp is_stale(opened_at, datetime) do
+    Timex.before?(opened_at, Timex.shift(datetime, minutes: -5))
   end
 end

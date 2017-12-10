@@ -277,4 +277,87 @@ defmodule CryptoHustler.OrderPreparatorTest do
       {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.32836290, rate: 0.00186}},
     ] = OrderPreparator.prepare_buy_orders(market_summaries, available_btc_balance)
   end
+
+  test "prepares orders for cancellation" do
+    open_orders = [%Order{
+      cancel_initiated: false,
+      commission_paid: 0.0,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 0.064336,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-BTG",
+      },
+      open: nil,
+      opened_at: ~N[2017-11-25 20:48:56.19],
+      order_type: "LIMIT_SELL",
+      quantity: 0.00779119,
+      quantity_remaining: 0.00779119,
+      rate: 0.0,
+      uuid: "79f169b4-a6f0-4bd2-b798-debb42032482",
+    }, %Order{
+      cancel_initiated: false,
+      commission_paid: 0.0,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 2.903e-5,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-CURE",
+      },
+      opened_at: ~N[2017-12-10 08:02:26.63],
+      order_type: "LIMIT_BUY",
+      quantity: 30.47502583,
+      quantity_remaining: 30.47502583,
+      rate: 0.0,
+      uuid: "096afdbb-ec3b-4485-a942-774ee80ed503",
+    }, %Order{
+      cancel_initiated: true,
+      commission_paid: 0.0,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 4.38e-6,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-LMC",
+      },
+      opened_at: ~N[2017-12-10 00:50:56.15],
+      order_type: "LIMIT_BUY",
+      quantity: 200.76940639,
+      quantity_remaining: 200.76940639,
+      rate: 0.0,
+      uuid: "685e9904-6652-4401-9fbd-02bd66437330",
+    }, %Order{
+      cancel_initiated: false,
+      commission_paid: 0.0,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 0.00186213,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-ZEN",
+      },
+      opened_at: ~N[2017-12-10 08:30:57.377],
+      order_type: "LIMIT_BUY",
+      quantity: 0.47469832,
+      quantity_remaining: 0.47469832,
+      rate: 0.0,
+      uuid: "866e3a36-30e8-4983-a51e-94f9f943644b",
+    }]
+
+    assert [%Order{market: %Market{name: "BTC-CURE"}}] = OrderPreparator.prepare_stale_buy_orders(open_orders, ~N[2017-12-10 08:32:00])
+  end
 end
