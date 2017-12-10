@@ -1,4 +1,6 @@
 defmodule CryptoHustler.Bot do
+  use Task, restart: :permanent
+
   alias Bittrex.Service.Account.{GetBalances, GetOrderHistory}
   alias Bittrex.Service.Market.{BuyLimit, Cancel, GetOpenOrders, SellLimit}
   alias Bittrex.Service.Public.{GetCurrencies, GetMarkets, GetMarketSummaries}
@@ -6,7 +8,13 @@ defmodule CryptoHustler.Bot do
 
   @minimum_trade 0.00050000
 
+  def start_link() do
+    Task.start_link(__MODULE__, :hustle, [])
+  end
+
   def hustle do
+    sleep(5)
+
     {:ok, open_orders} = GetOpenOrders.call()
     {:ok, currencies} = GetCurrencies.call()
     {:ok, markets} = GetMarkets.call()
@@ -33,9 +41,6 @@ defmodule CryptoHustler.Bot do
       |> OrderPreparator.prepare_buy_orders(btc_balance.available)
       |> Enum.each(&buy/1)
     end
-
-    sleep(10)
-    hustle()
   end
 
   defp buy({market, order}) do
