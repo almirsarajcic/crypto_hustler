@@ -33,9 +33,22 @@ defmodule CryptoHustler.Bot do
       |> OrderPreparator.prepare_buy_orders(btc_balance.available)
       |> Enum.each(&buy/1)
     end
+
+    sleep(10)
+    hustle()
   end
 
-  defp buy({market, order}), do: BuyLimit.call(market, order)
+  defp buy({market, order}) do
+    BuyLimit.call(market, order)
+    IO.puts "Buying: " <> market.name
+  end
 
-  defp sell({market, order}), do: SellLimit.call(market, order)
+  defp sell({market, order}) do
+    SellLimit.call(market, order)
+    IO.puts "Selling: " <> market.name
+  end
+
+  defp sleep(seconds) do
+    :timer.sleep(:timer.seconds(seconds))
+  end
 end
