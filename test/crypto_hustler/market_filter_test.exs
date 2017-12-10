@@ -261,6 +261,43 @@ defmodule CryptoHustler.CoinFinderTest do
         last: 7.5e-5
       },
       volume: 124396.52333554,
+    }, %MarketSummary{
+      base_volume: 2.54916931,
+      high: 3.257e-5,
+      low: 2.901e-5,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2014-05-13 09:00:00],
+        market_currency: %Currency{
+          active: true,
+          base_address: nil,
+          code: "CURE",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 6,
+          name: "CureCoin",
+          transaction_fee: 0.0002,
+        },
+        minimum_trade: 7.14285714,
+        name: "BTC-CURE",
+      },
+      open_buy_orders: 103,
+      open_sell_orders: 1899,
+      previous_day: 3.13e-5,
+      ticker: %Ticker{
+        ask: 2.965e-5,
+        bid: 2.93e-5,
+        last: 2.965e-5,
+      },
+      volume: 82911.04638579,
     }]
 
     assert [%MarketSummary{
