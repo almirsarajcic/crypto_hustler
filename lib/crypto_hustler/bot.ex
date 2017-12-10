@@ -20,6 +20,7 @@ defmodule CryptoHustler.Bot do
       |> DataCombiner.combine_currencies_with_markets(markets)
       |> DataCombiner.combine_markets_with_market_summaries(market_summaries)
       |> MarketFilter.filter(balances)
+      |> Enum.shuffle()
       |> OrderPreparator.prepare_buy_orders(btc_balance.available)
       |> Enum.each(&buy/1)
     end
