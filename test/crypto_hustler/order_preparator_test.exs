@@ -1,7 +1,7 @@
 defmodule CryptoHustler.OrderPreparatorTest do
   use ExUnit.Case
 
-  alias Bittrex.Data.{Currency, Market, MarketSummary, Order, Ticker}
+  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
   alias CryptoHustler.OrderPreparator
 
   # TODO add tests for using surplus and for low balance
@@ -359,5 +359,358 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }]
 
     assert [%Order{market: %Market{name: "BTC-CURE"}}] = OrderPreparator.prepare_stale_buy_orders(open_orders, ~N[2017-12-10 08:32:00])
+  end
+
+  test "prepares sell orders" do
+    balances = [%Balance{
+      available: 0.0,
+      balance: 0.0,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "1ST",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 0.00150234,
+      balance: 0.00150234,
+      crypto_address: "1Dov9bNBfzZwgVqD8r5BbFbcakbq6pScG5",
+      currency: %Currency{
+        code: "BTC",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 0.0,
+      balance: 0.00779119,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "BTG",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 67.79263671,
+      balance: 76.42821529,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "NXT",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 200.76940639,
+      balance: 200.76940639,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "LMC",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 0.47469832,
+      balance: 0.47469832,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "ZEN",
+      },
+      pending: 0.0,
+    }, %Balance{
+      available: 151.83612500,
+      balance: 151.83612500,
+      crypto_address: nil,
+      currency: %Currency{
+        code: "XRP",
+      },
+      pending: 0.0,
+    }]
+
+    orders = [%Order{
+      account_id: nil,
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-10 08:32:29.893],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 2.2e-6,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 0.00186213,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-ZEN",
+      },
+      opened_at: ~N[2017-12-10 08:30:57.377],
+      order_type: "LIMIT_BUY",
+      price_per_unit: 0.0018621,
+      quantity: 0.47469832,
+      quantity_remaining: 0.0,
+      rate: 8.8394e-4,
+      uuid: "866e3a36-30e8-4983-a51e-94f9f943644b",
+    }, %Order{
+      account_id: nil,
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-10 00:50:56.29],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 2.19e-6,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 4.38e-6,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-LMC",
+      },
+      opened_at: ~N[2017-12-10 00:50:56.15],
+      order_type: "LIMIT_BUY",
+      price_per_unit: 4.37e-6,
+      quantity: 200.76940639,
+      quantity_remaining: 0.0,
+      rate: 8.7936e-4,
+      uuid: "685e9904-6652-4401-9fbd-02bd66437330",
+    }, %Order{
+      account_id: nil,
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-10 00:38:55.337],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 2.21e-6,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 2.57e-5,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-1ST",
+      },
+      opened_at: ~N[2017-12-10 00:27:51.923],
+      order_type: "LIMIT_SELL",
+      price_per_unit: 2.569e-5,
+      quantity: 34.46129666,
+      quantity_remaining: 0.0,
+      rate: 8.8565e-4,
+      uuid: "ee0eceb5-5286-404f-b41f-d9e920ed3185"
+    }, %Order{
+      account_id: nil,
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-04 08:46:55.36],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 8.12e-6,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 4.25e-5,
+      market: %Market{
+        base_currency: %Currency{},
+        market_currency: %Currency{},
+        name: "BTC-NXT",
+      },
+      opened_at: ~N[2017-12-04 08:46:42.907],
+      order_type: "LIMIT_BUY",
+      price_per_unit: 4.249e-5,
+      quantity: 76.42821529,
+      quantity_remaining: 0.0,
+      rate: 0.00324819,
+      uuid: "0b3032ea-8776-4127-9971-d37ea70ea4d2",
+    }]
+
+    market_summaries = [%MarketSummary{
+      base_volume: 45.0364355,
+      high: 5.21e-6,
+      low: 4.02e-6,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2017-02-18 23:55:53.153],
+        market_currency: %Currency{
+          active: true,
+          base_address: nil,
+          code: "LMC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 6,
+          name: "Lomocoin",
+          transaction_fee: 0.2,
+        },
+        minimum_trade: 33.9673913,
+        name: "BTC-LMC",
+      },
+      open_buy_orders: 201,
+      open_sell_orders: 4593,
+      previous_day: 4.79e-6,
+      ticker: %Ticker{
+        ask: 4.44e-6,
+        bid: 4.4e-6,
+        last: 4.44e-6
+      },
+      volume: 10007182.94246329,
+    }, %MarketSummary{
+      base_volume: 71.49843258,
+      high: 0.00221745,
+      low: 0.00178389,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2017-06-05 16:39:49.07],
+        market_currency: %Currency{
+          active: true,
+          base_address: "znijtPB2zXxNG8qKnKuZprH9SbYhvdAzn5P",
+          code: "ZEN",
+          coin_type: "BITCOINEX",
+          minimum_confirmation: 30,
+          name: "ZenCash",
+          transaction_fee: 0.002,
+        },
+        minimum_trade: 0.09058004,
+        name: "BTC-ZEN",
+      },
+      open_buy_orders: 632,
+      open_sell_orders: 4285,
+      previous_day: 0.00185249,
+      ticker: %Ticker{
+        ask: 0.0018444,
+        bid: 0.00184437,
+        last: 0.0018444,
+      },
+      volume: 36439.9303021,
+    }, %MarketSummary{
+      base_volume: 10748.54649603,
+      high: 4.977e-5,
+      low: 3.53e-5,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2014-03-03 09:00:00],
+        market_currency: %Currency{
+          active: true,
+          base_address: "NXT-97H4-KRWL-A53G-7GVRG",
+          code: "NXT",
+          coin_type: "NXT",
+          minimum_confirmation: 8,
+          name: "NXT",
+          transaction_fee: 2.0,
+        },
+        minimum_trade: 8.63557858,
+        name: "BTC-NXT",
+      },
+      open_buy_orders: 3445,
+      open_sell_orders: 8384,
+      previous_day: 4.4e-5,
+      ticker: %Ticker{
+        ask: 4.251e-5,
+        bid: 4.243e-5,
+        last: 4.243e-5,
+      },
+      volume: 256505597.7027491,
+    }, %MarketSummary{
+      base_volume: 47.12547546,
+      high: 3.25e-5,
+      low: 2.332e-5,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2017-06-06 01:22:35.727],
+        market_currency: %Currency{
+          active: true,
+          base_address: "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
+          code: "1ST",
+          coin_type: "ETH_CONTRACT",
+          minimum_confirmation: 36,
+          name: "Firstblood",
+          transaction_fee: 1.7,
+        },
+        minimum_trade: 7.1880391,
+        name: "BTC-1ST",
+      },
+      open_buy_orders: 125,
+      open_sell_orders: 3501,
+      previous_day: 2.44e-5,
+      ticker: %Ticker{
+        ask: 2.573e-5,
+        bid: 2.551e-5,
+        last: 2.551e-5,
+      },
+      volume: 1751627.30117368,
+    }, %MarketSummary{
+      base_volume: 756.30482764,
+      high: 0.01711882,
+      low: 0.0147,
+      market: %Market{
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2017-11-20 21:49:15.983],
+        market_currency: %Currency{
+          active: true,
+          base_address: "GQNvdm4t6denxnZvGmM4Qvm6g9qH6iiCHD",
+          code: "BTG",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 10,
+          name: "Bitcoin Gold",
+          transaction_fee: 0.001,
+        },
+        minimum_trade: 0.00951292,
+        name: "BTC-BTG",
+      },
+      open_buy_orders: 878,
+      open_sell_orders: 16795,
+      previous_day: 0.01652194,
+      ticker: %Ticker{
+        ask: 0.01527831,
+        bid: 0.01521,
+        last: 0.01527831,
+      },
+      volume: 47899.1403046,
+    }]
+
+    assert [
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188073}},
+      {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
+    ] = OrderPreparator.prepare_sell_orders(balances, orders, market_summaries)
   end
 end

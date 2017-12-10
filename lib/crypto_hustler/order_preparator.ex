@@ -1,5 +1,5 @@
 defmodule CryptoHustler.OrderPreparator do
-  alias Bittrex.Data.{Currency, MarketSummary, Order, Ticker}
+  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
 
   @minimum_trade 0.00050000
   @number_of_coins 5
@@ -25,6 +25,32 @@ defmodule CryptoHustler.OrderPreparator do
     else
       prepare_stale_buy_orders(tail, datetime, orders_to_cancel)
     end
+  end
+
+  def prepare_sell_orders(balances, orders, market_summaries, prepared_orders \\ [])
+  def prepare_sell_orders([], orders, market_summaries, prepared_orders), do: prepared_orders
+  def prepare_sell_orders([head|tail], orders, market_summaries, prepared_orders) do
+    %Balance{available: available, currency: %Currency{code: currency_code}} = head
+
+    if available > 0 && currency_code != "BTC" do
+      if buy_order = find_buy_order(orders, head) do
+        %Order{price_per_unit: rate} = buy_order
+        rate = Float.ceil(rate + rate * 0.01, 8)
+
+        if market_summary = find_market_summary(market_summaries, currency_code) do
+          %MarketSummary{ticker: %Ticker{last: current_rate}} = market_summary
+
+          if current_rate > rate do
+            rate = current_rate
+          end
+
+          prepared_order = {%Market{name: "BTC-" <> currency_code}, %Order{quantity: available, rate: rate}}
+          prepared_orders = [prepared_order|prepared_orders]
+        end
+      end
+    end
+
+    prepare_sell_orders(tail, orders, market_summaries, prepared_orders)
   end
 
   defp number_of_coins(available_btc_balance, number_of_coins \\ @number_of_coins) do
@@ -55,5 +81,25 @@ defmodule CryptoHustler.OrderPreparator do
 
   defp is_stale(opened_at, datetime) do
     Timex.before?(opened_at, Timex.shift(datetime, minutes: -5))
+  end
+
+  defp find_buy_order([], _), do: nil
+  defp find_buy_order([head|tail], %Balance{available: available, currency: %Currency{code: currency_code}} = balance) do
+    case head do
+      %Order{market: %Market{name: "BTC-" <> ^currency_code}, order_type: "LIMIT_BUY", quantity: ^available} ->
+        head
+      _ ->
+        find_buy_order(tail, balance)
+    end
+  end
+
+  defp find_market_summary([], _), do: nil
+  defp find_market_summary([head|tail], currency_code) do
+    case head do
+      %MarketSummary{market: %Market{market_currency: %Currency{code: ^currency_code}}} ->
+        head
+      _ ->
+        find_market_summary(tail, currency_code)
+    end
   end
 end
