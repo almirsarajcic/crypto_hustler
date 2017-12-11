@@ -52,7 +52,7 @@ defmodule Bittrex.Service.Account.GetBalancesTest do
       uuid: nil,
     }]} = GetBalances.call()
 
-    assert %Request{endpoint: "/account/getbalances", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getbalances", params: params}] = InMemoryClient.requests()
     assert params == %{}
   end
 end

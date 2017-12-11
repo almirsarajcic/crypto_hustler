@@ -48,7 +48,7 @@ defmodule Bittrex.Service.Public.GetCurrenciesTest do
       base_address: nil,
     }]} = GetCurrencies.call()
 
-    assert %Request{endpoint: "/public/getcurrencies", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getcurrencies", params: params}] = InMemoryClient.requests()
     assert params == %{}
   end
 end

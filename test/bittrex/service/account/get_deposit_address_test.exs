@@ -24,7 +24,7 @@ defmodule Bittrex.Service.Account.GetDepositAddressTest do
       address: "Vy5SKeKGXUHKS2WVpJ76HYuKAu3URastUo",
     }} = GetDepositAddress.call(%Currency{code: "VTC"})
 
-    assert %Request{endpoint: "/account/getdepositaddress", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getdepositaddress", params: params}] = InMemoryClient.requests()
     assert params == %{currency: "VTC"}
   end
 end

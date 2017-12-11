@@ -24,7 +24,7 @@ defmodule Bittrex.Service.Public.GetTickerTest do
       last: 3.35579531,
     }} = GetTicker.call(%Market{name: "BTC-LTC"})
 
-    assert %Request{endpoint: "/public/getticker", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getticker", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC"}
   end
 end

@@ -34,7 +34,7 @@ defmodule Bittrex.Service.Account.GetDepositHistoryTest do
     }]} = GetDepositHistory.call(%Currency{code: "BTC"})
 
     # TODO check that GetDepositHistory.call() sends requests without params
-    assert %Request{endpoint: "/account/getdeposithistory", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getdeposithistory", params: params}] = InMemoryClient.requests()
     assert params == %{currency: "BTC"}
   end
 end

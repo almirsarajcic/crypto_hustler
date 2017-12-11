@@ -20,7 +20,7 @@ defmodule Bittrex.Service.Market.SellLimitTest do
       uuid: "614c34e4-8d71-11e3-94b5-425861b86ab6",
     }} = SellLimit.call(%Market{name: "BTC-LTC"}, %Order{quantity: 1.2, rate: 1.3})
 
-    assert %Request{endpoint: "/market/selllimit", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/market/selllimit", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC", quantity: 1.2, rate: 1.3}
   end
 end

@@ -59,7 +59,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
       ],
     }} = GetOrderBook.call(%Market{name: "BTC-LTC"}, "both")
 
-    assert %Request{endpoint: "/public/getorderbook", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getorderbook", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC", type: "both"}
   end
 
@@ -99,7 +99,7 @@ defmodule Bittrex.Service.Public.GetOrderBookTest do
       ],
     }} = GetOrderBook.call(%Market{name: "BTC-LTC"}, "sell")
 
-    assert %Request{endpoint: "/public/getorderbook", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getorderbook", params: params}] = InMemoryClient.requests()
     assert params == %{market: "BTC-LTC", type: "sell"}
   end
 end

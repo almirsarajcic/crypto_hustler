@@ -5,7 +5,8 @@ defmodule CryptoHustler.Application do
     import Supervisor.Spec
 
     children = [
-      worker(Bittrex.Client.InMemoryClient, [])
+      worker(Bittrex.Client.InMemoryClient, []),
+      worker(CryptoHustler.Bot, []),
     ]
 
     opts = [strategy: :one_for_one, name: CryptoHustler.Supervisor]

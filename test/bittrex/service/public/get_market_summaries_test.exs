@@ -80,7 +80,7 @@ defmodule Bittrex.Service.Public.GetMarketSummariesTest do
       open_sell_orders: 18,
     }]} = GetMarketSummaries.call()
 
-    assert %Request{endpoint: "/public/getmarketsummaries", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/public/getmarketsummaries", params: params}] = InMemoryClient.requests()
     assert params == %{}
   end
 end

@@ -5,12 +5,13 @@ defmodule Bittrex.Client.InMemoryClient do
 
   use GenServer
 
+  alias Bittrex.{Request, Response}
+
   @behaviour Bittrex.Client
 
   def send(request, _config) do
-    response = pop()
     push(request)
-    response
+    pop_response()
   end
 
   def start_link() do
@@ -25,12 +26,16 @@ defmodule Bittrex.Client.InMemoryClient do
     GenServer.call(__MODULE__, {:push, item})
   end
 
-  def pop() do
-    GenServer.call(__MODULE__, :pop)
+  def pop_response() do
+    GenServer.call(__MODULE__, :pop_response)
   end
 
-  def all() do
-    GenServer.call(__MODULE__, :all)
+  def requests() do
+    GenServer.call(__MODULE__, :requests)
+  end
+
+  def responses() do
+    GenServer.call(__MODULE__, :responses)
   end
 
   def delete_all() do
@@ -40,25 +45,32 @@ defmodule Bittrex.Client.InMemoryClient do
   # Callbacks
 
   def init(_args) do
-    {:ok, []}
+    {:ok, {[], []}}
   end
 
-  def handle_call({:push, item}, _from, stack) do
-    {:reply, item, [item] ++ stack}
+  def handle_call({:push, %Request{} = request}, _from, {requests, responses}) do
+    {:reply, request, {[request] ++ requests, responses}}
+  end
+  def handle_call({:push, %Response{} = response}, _from, {requests, responses}) do
+    {:reply, response, {requests, [response] ++ responses}}
   end
 
-  def handle_call(:pop, _from, []) do
-    {:reply, nil, []}
+  def handle_call(:pop_response, _from, {_, []} = tuple) do
+    {:reply, nil, tuple}
   end
-  def handle_call(:pop, _from, [head|tail]) do
-    {:reply, head, tail}
+  def handle_call(:pop_response, _from, {requests, [head|tail]}) do
+    {:reply, head, {requests, tail}}
   end
 
-  def handle_call(:all, _from, stack) do
-    {:reply, stack, stack}
+  def handle_call(:requests, _from, {requests, _} = tuple) do
+    {:reply, requests, tuple}
+  end
+
+  def handle_call(:responses, _from, {_, responses} = tuple) do
+    {:reply, responses, tuple}
   end
 
   def handle_call(:delete_all, _from, _stack) do
-    {:reply, :ok, []}
+    {:reply, :ok, {[], []}}
   end
 end

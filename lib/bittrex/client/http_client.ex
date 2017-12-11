@@ -51,7 +51,7 @@ defmodule Bittrex.Client.HttpClient do
   end
 
   defp execute_request(request) do
-    HTTPoison.get(request.endpoint, request.headers)
+    HTTPoison.get(request.endpoint, request.headers, [timeout: 30_000, recv_timeout: 30_000])
   end
 
   defp process_response({:ok, %{status_code: 200, body: body}} = _response) do

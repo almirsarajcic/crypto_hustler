@@ -69,7 +69,7 @@ defmodule Bittrex.Service.Account.GetWithdrawalHistoryTest do
     }]} = GetWithdrawalHistory.call(%Currency{code: "BTC"})
 
     # TODO check that GetWithdrawalHistory.call() sends requests without params
-    assert %Request{endpoint: "/account/getwithdrawalhistory", params: params} = InMemoryClient.pop()
+    assert [%Request{endpoint: "/account/getwithdrawalhistory", params: params}] = InMemoryClient.requests()
     assert params == %{currency: "BTC"}
   end
 end
