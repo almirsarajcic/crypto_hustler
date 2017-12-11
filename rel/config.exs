@@ -30,7 +30,7 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  set cookie: :"c2@DM|DY=zLhhD@jxHf0ZGE0g({Bt(uNQ%CS=h,^CIZ4UeV6:l:^02W0]Wu.8mXJ"
+  set cookie: :"${COOKIE}"
 end
 
 environment :prod do
@@ -50,4 +50,3 @@ release :crypto_hustler do
     :runtime_tools
   ]
 end
-
