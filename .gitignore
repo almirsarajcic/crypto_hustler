@@ -28,3 +28,7 @@ erl_crash.dump
 
 /releases/
 
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -7,3 +7,9 @@ test
 .DS_STORE
 erl_crash.dump
 *.ez
+.elasticbeanstalk/*
+.gitignore
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore

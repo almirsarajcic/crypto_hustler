@@ -19,7 +19,7 @@ run: ## Run the app in the image
 	docker run --rm -it $(IMAGE_NAME):$(VERSION)
 
 build: releases/crypto_hustler.tar.gz ## Rebuild the Docker image
-	docker build --no-cache --build-arg APP=$(APP) --force-rm -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
+	docker build --no-cache --force-rm -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
 
 releases/crypto_hustler.tar.gz:
 	docker run -it -e APP=$(APP) -e VERSION=$(VERSION) -v $(PWD):/opt/build bitwalker/alpine-elixir:latest /bin/sh -c '. /opt/build/bin/build.sh'

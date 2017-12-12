@@ -1,6 +1,6 @@
 FROM bitwalker/alpine-erlang
 
-ARG APP
+ENV APP crypto_hustler
 
 EXPOSE 5000
 EXPOSE 4369
