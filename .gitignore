@@ -25,3 +25,10 @@ erl_crash.dump
 
 # Atom IDE stuff
 .elixir_ls
+
+/releases/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

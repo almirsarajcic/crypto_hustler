@@ -25,6 +25,7 @@ defmodule CryptoHustler.Mixfile do
       {:poison, "~> 3.1"},
       {:httpoison, "~> 0.13"},
       {:timex, "~> 3.1"},
+      {:distillery, "~> 1.5", runtime: false},
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]

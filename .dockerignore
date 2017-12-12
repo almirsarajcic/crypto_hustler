@@ -1,0 +1,14 @@
+_build
+.elixir_ls
+.git
+cover
+deps
+test
+.DS_STORE
+erl_crash.dump
+*.ez
+.elasticbeanstalk/*
+.gitignore
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.gitignore
