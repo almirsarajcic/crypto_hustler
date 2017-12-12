@@ -1,21 +1,9 @@
 # CryptoHustler
 
-**TODO: Add description**
+## Deployment
 
-## Installation
+1. `rm releases/crypto_hustler.tar.gz`
+2. `make build`
+3. `eb deploy`
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `crypto_hustler` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:crypto_hustler, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/crypto_hustler](https://hexdocs.pm/crypto_hustler).
-
+For testing use `eb local run`. Make sure environment variables are set.
