@@ -6,6 +6,8 @@ defmodule CryptoHustler.Bot do
   alias Bittrex.Service.Public.{GetCurrencies, GetMarkets, GetMarketSummaries}
   alias CryptoHustler.{BtcBalanceCalculator, DataCombiner, MarketFilter, OrderPreparator}
 
+  require Logger
+
   @minimum_trade 0.00050000
 
   def start_link() do
@@ -45,12 +47,12 @@ defmodule CryptoHustler.Bot do
 
   defp buy({market, order}) do
     BuyLimit.call(market, order)
-    IO.puts "Buying: " <> market.name
+    Logger.info "Buying: " <> market.name
   end
 
   defp sell({market, order}) do
     SellLimit.call(market, order)
-    IO.puts "Selling: " <> market.name
+    Logger.info "Selling: " <> market.name
   end
 
   defp sleep(seconds) do
