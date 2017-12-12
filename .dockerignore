@@ -11,5 +11,4 @@ erl_crash.dump
 .gitignore
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
-.git
 .gitignore
