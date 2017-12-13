@@ -64,7 +64,12 @@ defmodule CryptoHustler.OrderPreparator do
   defp prepare(market_summaries, number_of_coins, available_per_coin, prepared_orders \\ [])
   defp prepare([], number_of_coins, available_per_coin, prepared_orders), do: prepared_orders
   defp prepare([head|tail], number_of_coins, available_per_coin, prepared_orders) do
-    %MarketSummary{market: market, ticker: %Ticker{last: rate}} = head
+    %MarketSummary{market: market, ticker: %Ticker{bid: bid, last: last}} = head
+    rate = if bid < last do
+      Float.round(bid + 1.0e-8, 8)
+    else
+      last
+    end
     quantity = Float.floor(available_per_coin / rate, 8)
 
     if quantity >= market.minimum_trade do

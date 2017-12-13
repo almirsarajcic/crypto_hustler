@@ -10,9 +10,9 @@ defmodule CryptoHustler.OrderPreparatorTest do
     available_btc_balance = 0.00244302
 
     market_summaries = [%MarketSummary{
-      base_volume: 91.27420209,
-      high: 0.00221745,
-      low: 0.00177777,
+      base_volume: 33.56910169,
+      high: 3.85e-4,
+      low: 3.1001e-4,
       market: %Market{
         active: true,
         base_currency: %Currency{
@@ -24,28 +24,28 @@ defmodule CryptoHustler.OrderPreparatorTest do
           name: "Bitcoin",
           transaction_fee: 0.001,
         },
-        created_at: ~N[2017-06-05 16:39:49.07],
+        created_at: ~N[2016-01-26 23:22:16.193],
         market_currency: %Currency{
           active: true,
-          base_address: "znijtPB2zXxNG8qKnKuZprH9SbYhvdAzn5P",
-          code: "ZEN",
-          coin_type: "BITCOINEX",
-          minimum_confirmation: 30,
-          name: "ZenCash",
-          transaction_fee: 0.002,
+          base_address: nil,
+          code: "RADS",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 6,
+          name: "Radium",
+          transaction_fee: 0.2,
         },
-        minimum_trade: 0.09058004,
-        name: "BTC-ZEN",
+        minimum_trade: 0.54328929,
+        name: "BTC-RADS",
       },
-      open_buy_orders: 499,
-      open_sell_orders: 4013,
-      previous_day: 0.00184001,
+      open_buy_orders: 96,
+      open_sell_orders: 1432,
+      previous_day: 3.2101e-4,
       ticker: %Ticker{
-        ask: 0.00186006,
-        bid: 0.00186,
-        last: 0.00186,
+        ask: 3.428e-4,
+        bid: 3.41e-4,
+        last: 3.428e-4
       },
-      volume: 46965.75305119,
+      volume: 98086.66986651,
     }, %MarketSummary{
       base_volume: 55.21095537,
       high: 3.25e-5,
@@ -84,9 +84,9 @@ defmodule CryptoHustler.OrderPreparatorTest do
       },
       volume: 2069933.6584067,
     }, %MarketSummary{
-      base_volume: 3.65703368,
-      high: 7.4e-7,
-      low: 6.3e-7,
+      base_volume: 7.25438468,
+      high: 2.76e-5,
+      low: 2.521e-5,
       market: %Market{
         active: true,
         base_currency: %Currency{
@@ -98,28 +98,28 @@ defmodule CryptoHustler.OrderPreparatorTest do
           name: "Bitcoin",
           transaction_fee: 0.001,
         },
-        created_at: ~N[2016-05-16 06:44:15.287],
+        created_at: ~N[2014-12-19 02:33:10.943],
         market_currency: %Currency{
           active: true,
           base_address: nil,
-          code: "2GIVE",
-          coin_type: "BITCOIN_PERCENTAGE_FEE",
+          code: "VTR",
+          coin_type: "BITCOIN_STEALTH",
           minimum_confirmation: 6,
-          name: "2GIVE",
-          transaction_fee: 0.01,
+          name: "vTorrent",
+          transaction_fee: 0.02,
         },
-        minimum_trade: 342.46575342,
-        name: "BTC-2GIVE",
+        minimum_trade: 10.60220526,
+        name: "BTC-VTR",
       },
-      open_buy_orders: 141,
-      open_sell_orders: 1409,
-      previous_day: 6.8e-7,
+      open_buy_orders: 137,
+      open_sell_orders: 958,
+      previous_day: 2.704e-5,
       ticker: %Ticker{
-        ask: 7.0e-7,
-        bid: 6.8e-7,
-        last: 6.9e-7,
+        ask: 2.741e-5,
+        bid: 2.708e-5,
+        last: 2.708e-5,
       },
-      volume: 5461709.09418786,
+      volume: 273926.53569929,
     }, %MarketSummary{
       base_volume: 9.3263283,
       high: 6.0e-7,
@@ -272,9 +272,9 @@ defmodule CryptoHustler.OrderPreparatorTest do
 
     assert [
       {%Market{name: "BTC-ABY"}, %Order{quantity: 1131.02777777, rate: 0.00000054}},
-      {%Market{name: "BTC-2GIVE"}, %Order{quantity: 885.15217391, rate: 0.00000069}},
+      {%Market{name: "BTC-VTR"}, %Order{quantity: 22.55372968, rate: 0.00002708}},
       {%Market{name: "BTC-1ST"}, %Order{quantity: 22.60381199, rate: 0.00002702}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.32836290, rate: 0.00186}},
+      {%Market{name: "BTC-RADS"}, %Order{quantity: 1.79101785, rate: 0.00034101}},
     ] = OrderPreparator.prepare_buy_orders(market_summaries, available_btc_balance)
   end
 
