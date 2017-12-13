@@ -101,7 +101,7 @@ defmodule CryptoHustler.BtcBalanceCalculatorTest do
     assert %BtcBalance{
       real: 0.01000003,
       estimated: 0.01333420,
-      available: 0.00099951,
+      available: 0.00900003,
     } = BtcBalanceCalculator.calculate(balances, market_summaries)
   end
 end
