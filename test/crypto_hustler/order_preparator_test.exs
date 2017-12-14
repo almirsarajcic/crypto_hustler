@@ -816,8 +816,8 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }]
 
     assert [
-      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050449}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188076}},
+      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
       {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
     ] = OrderPreparator.prepare_sell_orders(balances, orders, market_summaries)
   end
