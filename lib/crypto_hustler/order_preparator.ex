@@ -35,7 +35,7 @@ defmodule CryptoHustler.OrderPreparator do
     if available > 0 && currency_code != "BTC" do
       if buy_order = find_buy_order(orders, head) do
         %Order{limit: rate} = buy_order
-        rate = Float.ceil(rate + rate * 0.01, 8)
+        rate = Float.ceil(rate + rate * 0.0125, 8)
 
         if market_summary = find_market_summary(market_summaries, currency_code) do
           %MarketSummary{ticker: %Ticker{last: current_rate}} = market_summary
