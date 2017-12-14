@@ -70,7 +70,8 @@ defmodule CryptoHustler.OrderPreparator do
     else
       last
     end
-    quantity = Float.floor(available_per_coin / rate, 8)
+    rate_with_fee = rate + rate * 0.0025
+    quantity = Float.floor(available_per_coin / rate_with_fee, 8)
 
     if quantity >= market.minimum_trade do
       prepared_order = {market, %Order{quantity: quantity, rate: rate}}
