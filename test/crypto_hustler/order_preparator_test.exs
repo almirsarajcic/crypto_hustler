@@ -271,10 +271,10 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }]
 
     assert [
-      {%Market{name: "BTC-ABY"}, %Order{quantity: 1131.02777777, rate: 0.00000054}},
-      {%Market{name: "BTC-VTR"}, %Order{quantity: 22.55372968, rate: 0.00002708}},
-      {%Market{name: "BTC-1ST"}, %Order{quantity: 22.60381199, rate: 0.00002702}},
-      {%Market{name: "BTC-RADS"}, %Order{quantity: 1.79101785, rate: 0.00034101}},
+      {%Market{name: "BTC-ABY"}, %Order{quantity: 1128.20725962, rate: 0.00000054}},
+      {%Market{name: "BTC-VTR"}, %Order{quantity: 22.49748597, rate: 0.00002708}},
+      {%Market{name: "BTC-1ST"}, %Order{quantity: 22.54744338, rate: 0.00002702}},
+      {%Market{name: "BTC-RADS"}, %Order{quantity: 1.78655148, rate: 0.00034101}},
     ] = OrderPreparator.prepare_buy_orders(market_summaries, available_btc_balance)
   end
 
@@ -816,8 +816,8 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }]
 
     assert [
-      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050449}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188076}},
+      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
       {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
     ] = OrderPreparator.prepare_sell_orders(balances, orders, market_summaries)
   end
