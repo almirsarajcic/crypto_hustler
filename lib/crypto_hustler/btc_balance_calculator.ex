@@ -37,6 +37,7 @@ defmodule CryptoHustler.BtcBalanceCalculator do
     estimated_btc_balance(market_summaries, tail, balance)
   end
 
+  defp get_currency_price(_, []), do: 0
   defp get_currency_price(market_name, [head|tail]) do
     case head do
       %MarketSummary{market: %Market{name: ^market_name}, ticker: %Ticker{last: price}} ->
