@@ -37,6 +37,14 @@ defmodule CryptoHustler.BtcBalanceCalculatorTest do
         code: "XRP",
       },
       pending: 0.0,
+    }, %Balance{
+      available: 0.46000299,
+      balance: 0.46000299,
+      crypto_address: "addr3ss",
+      currency: %Currency{
+        code: "USDT",
+      },
+      pending: 0.0,
     }]
 
     market_summaries = [%MarketSummary{
