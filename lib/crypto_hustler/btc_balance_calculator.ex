@@ -5,12 +5,11 @@ defmodule CryptoHustler.BtcBalanceCalculator do
   def calculate(balances, market_summaries) do
     btc_balance = get_btc_balance(balances)
     estimated = estimated_btc_balance(market_summaries, balances)
-    available = btc_balance.available - estimated * 0.6
 
     %BtcBalance{
       real: btc_balance.balance,
       estimated: Float.round(estimated, 8),
-      available: Float.round(available, 8),
+      available: btc_balance.available,
     }
   end
 
