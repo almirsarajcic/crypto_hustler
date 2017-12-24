@@ -1,7 +1,7 @@
 defmodule CryptoHustler.CoinFinderTest do
   use ExUnit.Case
 
-  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Ticker}
+  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
   alias CryptoHustler.MarketFilter
 
   test "filters markets" do
@@ -298,6 +298,77 @@ defmodule CryptoHustler.CoinFinderTest do
         last: 2.965e-5,
       },
       volume: 82911.04638579,
+    }, %MarketSummary{
+      base_volume: 18.63135479,
+      high: 3.2e-4,
+      low: 2.6501e-4,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        created_at: ~N[2017-03-23 00:48:15.94],
+        market_currency: %Currency{
+          active: true,
+          base_address: "3P31zvGdh6ai6JK6zZ18TjYzJsa1B83YPoj",
+          code: "TKS",
+          coin_type: "WAVES_ASSET",
+          minimum_confirmation: 20,
+          name: "Tokes",
+          transaction_fee: 0.1,
+        },
+        minimum_trade: 1.78788529,
+        name: "BTC-TKS",
+      },
+      open_buy_orders: 190,
+      open_sell_orders: 1335,
+      previous_day: 3.061e-4,
+      ticker: %Ticker{
+        ask: 2.9259e-4,
+        bid: 2.9218e-4,
+        last: 2.9218e-4,
+      },
+      volume: 63406.07549542,
+    }]
+
+    open_orders = [%Order{
+      account_id: nil,
+      cancel_initiated: false,
+      closed_at: nil,
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 0.0,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 2.9218e-4,
+      market: %Market{
+        active: nil,
+        base_currency: %Currency{},
+        created_at: nil,
+        market_currency: %Currency{},
+        minimum_trade: nil,
+        name: "BTC-TKS",
+      },
+      open: nil,
+      opened_at: ~N[2017-12-24 16:23:37.867],
+      order_type: "LIMIT_BUY",
+      price_per_unit: nil,
+      quantity: 2.53009068,
+      quantity_remaining: 2.53009068,
+      rate: 0.0,
+      reserve_remaining: nil,
+      reserved: nil,
+      sentinel: nil,
+      uuid: "8941c434-ec30-4f2c-8c94-0317c139c98e",
     }]
 
     assert [%MarketSummary{
@@ -337,6 +408,6 @@ defmodule CryptoHustler.CoinFinderTest do
         last: 0.02014006,
       },
       volume: 24378.01097417,
-    }] = MarketFilter.filter(market_summaries, balances)
+    }] = MarketFilter.filter(market_summaries, balances, open_orders)
   end
 end
