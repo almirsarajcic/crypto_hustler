@@ -38,7 +38,7 @@ defmodule CryptoHustler.Bot do
 
     if btc_balance.available >= @minimum_trade do
       market_summaries
-      |> MarketFilter.filter(balances)
+      |> MarketFilter.filter(balances, open_orders)
       |> Enum.shuffle()
       |> OrderPreparator.prepare_buy_orders(btc_balance.available)
       |> Enum.each(&buy/1)

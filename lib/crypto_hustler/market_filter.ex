@@ -1,16 +1,16 @@
 defmodule CryptoHustler.MarketFilter do
-  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Ticker}
+  alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
 
-  def filter(market_summaries, balances, new_coins \\ [])
-  def filter([], _, new_coins), do: new_coins
-  def filter([head|tail], balances, new_coins) do
+  def filter(market_summaries, balances, open_orders, new_coins \\ [])
+  def filter([], _, _, new_coins), do: new_coins
+  def filter([head|tail], balances, open_orders, new_coins) do
     %MarketSummary{market: market} = head
     %Market{market_currency: market_currency} = market
 
-    if is_active(market) && is_btc_market(market) && !is_in_posession(market_currency, balances) && has_potential(head) do
-      filter(tail, balances, [head|new_coins])
+    if is_active(market) && is_btc_market(market) && !is_in_posession(market_currency, balances) && !buying(market, open_orders) && has_potential(head) do
+      filter(tail, balances, open_orders, [head|new_coins])
     else
-      filter(tail, balances, new_coins)
+      filter(tail, balances, open_orders, new_coins)
     end
   end
 
@@ -28,6 +28,16 @@ defmodule CryptoHustler.MarketFilter do
         balance > 0
       _ ->
         is_in_posession(currency, tail)
+    end
+  end
+
+  defp buying(_, []), do: false
+  defp buying(%Market{name: market_name} = market, [head|tail]) do
+    case head do
+      %Order{market: %Market{name: ^market_name}, order_type: "LIMIT_BUY"} ->
+        true
+      _ ->
+        buying(market, tail)
     end
   end
 
