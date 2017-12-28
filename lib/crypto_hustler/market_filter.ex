@@ -14,6 +14,7 @@ defmodule CryptoHustler.MarketFilter do
     end
   end
 
+  defp is_active(%Market{active: false}), do: false
   defp is_active(%Market{base_currency: %Currency{active: false}}), do: false
   defp is_active(%Market{market_currency: %Currency{active: false}}), do: false
   defp is_active(_), do: true
