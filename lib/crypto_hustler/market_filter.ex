@@ -7,7 +7,7 @@ defmodule CryptoHustler.MarketFilter do
     %MarketSummary{market: market} = head
     %Market{market_currency: market_currency} = market
 
-    if is_active(market) && is_base_currency_market(base_currency_code, market) && !is_in_posession(market_currency, balances) && !buying(market, open_orders) && has_potential(head) do
+    if is_active(market) && is_base_currency_market(base_currency_code, market) && !is_in_posession(market_currency, balances) && !buying(market_currency, open_orders) && has_potential(head) do
       filter(tail, base_currency_code, balances, open_orders, [head|new_coins])
     else
       filter(tail, base_currency_code, balances, open_orders, new_coins)
@@ -34,12 +34,16 @@ defmodule CryptoHustler.MarketFilter do
   end
 
   defp buying(_, []), do: false
-  defp buying(%Market{name: market_name} = market, [head|tail]) do
+  defp buying(%Currency{code: code} = market_currency, [head|tail]) do
     case head do
-      %Order{market: %Market{name: ^market_name}, order_type: "LIMIT_BUY"} ->
-        true
+      %Order{market: %Market{name: market_name}, order_type: "LIMIT_BUY"} ->
+        if market_name =~ "-" <> code do
+          true
+        else
+          buying(market_currency, tail)
+        end
       _ ->
-        buying(market, tail)
+        buying(market_currency, tail)
     end
   end
 
