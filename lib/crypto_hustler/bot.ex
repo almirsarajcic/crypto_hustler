@@ -43,7 +43,7 @@ defmodule CryptoHustler.Bot do
       market_summaries
       |> MarketFilter.filter(base_currency_code, balances, open_orders)
       |> Enum.shuffle()
-      |> OrderPreparator.prepare_buy_orders(base_currency_balance.available)
+      |> OrderPreparator.prepare_buy_orders(base_currency_balance.available, config[:number_of_coins])
       |> Enum.each(&buy/1)
     end
   end

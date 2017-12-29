@@ -2,11 +2,10 @@ defmodule CryptoHustler.OrderPreparator do
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
 
   @minimum_trade 0.00050000
-  @number_of_coins 5
 
   # TODO try to buy even more coins using surplus left from dividing balance and preparing orders
-  def prepare_buy_orders(market_summaries, available_base_currency_balance) do
-    number_of_coins = number_of_coins(available_base_currency_balance)
+  def prepare_buy_orders(market_summaries, available_base_currency_balance, number_of_coins) do
+    number_of_coins = number_of_coins(available_base_currency_balance, number_of_coins)
 
     if number_of_coins > 0 do
       available_per_coin = available_base_currency_balance / number_of_coins
@@ -55,7 +54,7 @@ defmodule CryptoHustler.OrderPreparator do
     prepare_sell_orders(base_currency_code, tail, orders, market_summaries, prepared_orders)
   end
 
-  defp number_of_coins(available_btc_balance, number_of_coins \\ @number_of_coins) do
+  defp number_of_coins(available_btc_balance, number_of_coins) do
     if available_btc_balance / number_of_coins >= @minimum_trade do
       number_of_coins
     else

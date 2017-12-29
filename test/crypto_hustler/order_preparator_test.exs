@@ -6,10 +6,72 @@ defmodule CryptoHustler.OrderPreparatorTest do
 
   # TODO add tests for using surplus and for low balance
 
-  test "prepares buy orders" do
+  test "prepares buy orders for 5 coins" do
     available_btc_balance = 0.00244302
 
-    market_summaries = [%MarketSummary{
+    assert [
+      {%Market{name: "BTC-ABY"}, %Order{quantity: 1128.20725962, rate: 0.00000054}},
+      {%Market{name: "BTC-VTR"}, %Order{quantity: 22.49748597, rate: 0.00002708}},
+      {%Market{name: "BTC-1ST"}, %Order{quantity: 22.54744338, rate: 0.00002702}},
+      {%Market{name: "BTC-RADS"}, %Order{quantity: 1.78655148, rate: 0.00034101}},
+    ] = OrderPreparator.prepare_buy_orders(market_summaries_buy(), available_btc_balance, 5)
+  end
+
+  test "prepares buy orders for 2 coins" do
+    available_btc_balance = 0.00244302
+
+    assert [
+      {%Market{name: "BTC-1ST"}, %Order{quantity: 45.09488676, rate: 0.00002702}},
+      {%Market{name: "BTC-RADS"}, %Order{quantity: 3.57310296, rate: 0.00034101}},
+    ] = OrderPreparator.prepare_buy_orders(market_summaries_buy(), available_btc_balance, 2)
+  end
+
+  test "prepares orders for cancellation" do
+    assert [%Order{
+      market: %Market{
+        name: "USDT-BTC",
+      },
+    }, %Order{
+      market: %Market{
+        name: "BTC-CURE",
+      },
+    }] = OrderPreparator.prepare_stale_buy_orders(open_orders(), ~N[2017-12-10 08:32:00])
+  end
+
+  test "prepares BTC sell orders" do
+    btc_balances = balances() ++ [%Balance{
+      available: 1.035296,
+      balance: 1.035296,
+      currency: %Currency{
+        code: "SALT",
+      },
+      pending: 0.0,
+    }]
+
+    assert [
+      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
+      {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
+    ] = OrderPreparator.prepare_sell_orders("BTC", btc_balances, order_history(), market_summaries())
+  end
+
+  test "prepares ETH sell orders" do
+    eth_balances = balances() ++ [%Balance{
+      available: 0.00024522,
+      balance: 0.00024522,
+      currency: %Currency{
+        code: "SALT",
+      },
+      pending: 0.0,
+    }]
+
+    assert [
+      {%Market{name: "ETH-SALT"}, %Order{quantity: 0.00024522, rate: 0.02207045}},
+    ] = OrderPreparator.prepare_sell_orders("ETH", eth_balances, order_history(), market_summaries())
+  end
+
+  def market_summaries_buy do
+    [%MarketSummary{
       base_volume: 33.56910169,
       high: 3.85e-4,
       low: 3.1001e-4,
@@ -269,57 +331,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       },
       volume: 3392776.61502297,
     }]
-
-    assert [
-      {%Market{name: "BTC-ABY"}, %Order{quantity: 1128.20725962, rate: 0.00000054}},
-      {%Market{name: "BTC-VTR"}, %Order{quantity: 22.49748597, rate: 0.00002708}},
-      {%Market{name: "BTC-1ST"}, %Order{quantity: 22.54744338, rate: 0.00002702}},
-      {%Market{name: "BTC-RADS"}, %Order{quantity: 1.78655148, rate: 0.00034101}},
-    ] = OrderPreparator.prepare_buy_orders(market_summaries, available_btc_balance)
-  end
-
-  test "prepares orders for cancellation" do
-    assert [%Order{
-      market: %Market{
-        name: "USDT-BTC",
-      },
-    }, %Order{
-      market: %Market{
-        name: "BTC-CURE",
-      },
-    }] = OrderPreparator.prepare_stale_buy_orders(open_orders(), ~N[2017-12-10 08:32:00])
-  end
-
-  test "prepares BTC sell orders" do
-    btc_balances = balances() ++ [%Balance{
-      available: 1.035296,
-      balance: 1.035296,
-      currency: %Currency{
-        code: "SALT",
-      },
-      pending: 0.0,
-    }]
-
-    assert [
-      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
-      {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
-    ] = OrderPreparator.prepare_sell_orders("BTC", btc_balances, order_history(), market_summaries())
-  end
-
-  test "prepares ETH sell orders" do
-    eth_balances = balances() ++ [%Balance{
-      available: 0.00024522,
-      balance: 0.00024522,
-      currency: %Currency{
-        code: "SALT",
-      },
-      pending: 0.0,
-    }]
-
-    assert [
-      {%Market{name: "ETH-SALT"}, %Order{quantity: 0.00024522, rate: 0.02207045}},
-    ] = OrderPreparator.prepare_sell_orders("ETH", eth_balances, order_history(), market_summaries())
   end
 
   defp open_orders do
