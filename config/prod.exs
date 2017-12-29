@@ -6,4 +6,4 @@ config :crypto_hustler, :bittrex,
   api_key: "${BITTREX_API_KEY}",
   api_secret: "${BITTREX_API_SECRET}",
   base_currency: "${BITTREX_BASE_CURRENCY}",
-  number_of_coins: ${BITTREX_NUMBER_OF_COINS}
+  number_of_coins: "${BITTREX_NUMBER_OF_COINS}"

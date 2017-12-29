@@ -29,6 +29,7 @@ defmodule CryptoHustler.Bot do
 
     config = Application.get_env(:crypto_hustler, :bittrex)
     base_currency_code = config[:base_currency]
+    number_of_coins = String.to_integer(config[:number_of_coins])
 
     {:ok, orders} = GetOrderHistory.call()
     OrderPreparator.prepare_sell_orders(base_currency_code, balances, orders, market_summaries)
@@ -43,7 +44,7 @@ defmodule CryptoHustler.Bot do
       market_summaries
       |> MarketFilter.filter(base_currency_code, balances, open_orders)
       |> Enum.shuffle()
-      |> OrderPreparator.prepare_buy_orders(base_currency_balance.available, config[:number_of_coins])
+      |> OrderPreparator.prepare_buy_orders(base_currency_balance.available, number_of_coins)
       |> Enum.each(&buy/1)
     end
   end
