@@ -1,3 +1,3 @@
-defmodule CryptoHustler.BtcBalance do
+defmodule CryptoHustler.BaseCurrencyBalance do
   defstruct [:real, :estimated, :available]
 end

@@ -1,5 +1,5 @@
 defmodule CryptoHustler.OrderPreparatorTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
   alias CryptoHustler.OrderPreparator
@@ -279,93 +279,122 @@ defmodule CryptoHustler.OrderPreparatorTest do
   end
 
   test "prepares orders for cancellation" do
-    open_orders = [%Order{
+    assert [%Order{
+      market: %Market{
+        name: "USDT-BTC",
+      },
+    }, %Order{
+      market: %Market{
+        name: "BTC-CURE",
+      },
+    }] = OrderPreparator.prepare_stale_buy_orders(open_orders(), ~N[2017-12-10 08:32:00])
+  end
+
+  test "prepares BTC sell orders" do
+    btc_balances = balances() ++ [%Balance{
+      available: 1.035296,
+      balance: 1.035296,
+      currency: %Currency{
+        code: "SALT",
+      },
+      pending: 0.0,
+    }]
+
+    assert [
+      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
+      {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
+    ] = OrderPreparator.prepare_sell_orders("BTC", btc_balances, order_history(), market_summaries())
+  end
+
+  test "prepares ETH sell orders" do
+    eth_balances = balances() ++ [%Balance{
+      available: 0.00024522,
+      balance: 0.00024522,
+      currency: %Currency{
+        code: "SALT",
+      },
+      pending: 0.0,
+    }]
+
+    assert [
+      {%Market{name: "ETH-SALT"}, %Order{quantity: 0.00024522, rate: 0.02207045}},
+    ] = OrderPreparator.prepare_sell_orders("ETH", eth_balances, order_history(), market_summaries())
+  end
+
+  defp open_orders do
+    [%Order{
       cancel_initiated: false,
-      commission_paid: 0.0,
       condition: "NONE",
       condition_target: nil,
       conditional: false,
       immediate_or_cancel: false,
-      limit: 0.064336,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-BTG",
       },
-      open: nil,
       opened_at: ~N[2017-11-25 20:48:56.19],
       order_type: "LIMIT_SELL",
       quantity: 0.00779119,
       quantity_remaining: 0.00779119,
-      rate: 0.0,
-      uuid: "79f169b4-a6f0-4bd2-b798-debb42032482",
     }, %Order{
       cancel_initiated: false,
-      commission_paid: 0.0,
       condition: "NONE",
       condition_target: nil,
       conditional: false,
       immediate_or_cancel: false,
-      limit: 2.903e-5,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-CURE",
       },
       opened_at: ~N[2017-12-10 08:02:26.63],
       order_type: "LIMIT_BUY",
       quantity: 30.47502583,
       quantity_remaining: 30.47502583,
-      rate: 0.0,
-      uuid: "096afdbb-ec3b-4485-a942-774ee80ed503",
     }, %Order{
       cancel_initiated: true,
-      commission_paid: 0.0,
       condition: "NONE",
       condition_target: nil,
       conditional: false,
       immediate_or_cancel: false,
-      limit: 4.38e-6,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-LMC",
       },
       opened_at: ~N[2017-12-10 00:50:56.15],
       order_type: "LIMIT_BUY",
       quantity: 200.76940639,
       quantity_remaining: 200.76940639,
-      rate: 0.0,
-      uuid: "685e9904-6652-4401-9fbd-02bd66437330",
     }, %Order{
       cancel_initiated: false,
-      commission_paid: 0.0,
       condition: "NONE",
       condition_target: nil,
       conditional: false,
       immediate_or_cancel: false,
-      limit: 0.00186213,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-ZEN",
       },
       opened_at: ~N[2017-12-10 08:30:57.377],
       order_type: "LIMIT_BUY",
       quantity: 0.47469832,
       quantity_remaining: 0.47469832,
-      rate: 0.0,
-      uuid: "866e3a36-30e8-4983-a51e-94f9f943644b",
+    }, %Order{
+      cancel_initiated: false,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      market: %Market{
+        name: "USDT-BTC",
+      },
+      opened_at: ~N[2017-12-10 08:25:15.24],
+      order_type: "LIMIT_BUY",
+      quantity: 0.02347673,
+      quantity_remaining: 0.02347673,
     }]
-
-    assert [%Order{market: %Market{name: "BTC-CURE"}}] = OrderPreparator.prepare_stale_buy_orders(open_orders, ~N[2017-12-10 08:32:00])
   end
 
-  test "prepares sell orders" do
-    balances = [%Balance{
+  def balances do
+    [%Balance{
       available: 0.0,
       balance: 0.0,
-      crypto_address: nil,
       currency: %Currency{
         code: "1ST",
       },
@@ -373,7 +402,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 0.00150234,
       balance: 0.00150234,
-      crypto_address: "1Dov9bNBfzZwgVqD8r5BbFbcakbq6pScG5",
       currency: %Currency{
         code: "BTC",
       },
@@ -381,7 +409,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 0.0,
       balance: 0.00779119,
-      crypto_address: nil,
       currency: %Currency{
         code: "BTG",
       },
@@ -389,7 +416,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 67.79263671,
       balance: 76.42821529,
-      crypto_address: nil,
       currency: %Currency{
         code: "NXT",
       },
@@ -397,7 +423,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 200.76940639,
       balance: 200.76940639,
-      crypto_address: nil,
       currency: %Currency{
         code: "LMC",
       },
@@ -405,7 +430,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 0.47469832,
       balance: 0.47469832,
-      crypto_address: nil,
       currency: %Currency{
         code: "ZEN",
       },
@@ -413,23 +437,15 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }, %Balance{
       available: 151.83612500,
       balance: 151.83612500,
-      crypto_address: nil,
       currency: %Currency{
         code: "XRP",
       },
       pending: 0.0,
-    }, %Balance{
-      available: 1.035296,
-      balance: 1.035296,
-      crypto_address: nil,
-      currency: %Currency{
-        code: "SALT",
-      },
-      pending: 0.0,
     }]
+  end
 
-    orders = [%Order{
-      account_id: nil,
+  def order_history do
+    [%Order{
       cancel_initiated: nil,
       closed_at: ~N[2017-12-10 18:36:50.6],
       commision: nil,
@@ -442,8 +458,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       immediate_or_cancel: false,
       limit: 4.9949e-4,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-SALT",
       },
       opened_at: ~N[2017-12-10 18:36:50.477],
@@ -452,9 +466,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
       quantity: 1.035296,
       quantity_remaining: 0.0,
       rate: 5.1711e-4,
-      uuid: "2290862d-f9e2-475b-8caf-ed9644177b07",
     }, %Order{
-      account_id: nil,
       cancel_initiated: nil,
       closed_at: ~N[2017-12-10 08:32:29.893],
       commision: nil,
@@ -467,8 +479,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       immediate_or_cancel: false,
       limit: 0.00186213,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-ZEN",
       },
       opened_at: ~N[2017-12-10 08:30:57.377],
@@ -477,9 +487,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
       quantity: 0.47469832,
       quantity_remaining: 0.0,
       rate: 8.8394e-4,
-      uuid: "866e3a36-30e8-4983-a51e-94f9f943644b",
     }, %Order{
-      account_id: nil,
       cancel_initiated: nil,
       closed_at: ~N[2017-12-10 00:50:56.29],
       commision: nil,
@@ -492,8 +500,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       immediate_or_cancel: false,
       limit: 4.38e-6,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-LMC",
       },
       opened_at: ~N[2017-12-10 00:50:56.15],
@@ -502,9 +508,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
       quantity: 200.76940639,
       quantity_remaining: 0.0,
       rate: 8.7936e-4,
-      uuid: "685e9904-6652-4401-9fbd-02bd66437330",
     }, %Order{
-      account_id: nil,
       cancel_initiated: nil,
       closed_at: ~N[2017-12-10 00:38:55.337],
       commision: nil,
@@ -517,8 +521,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       immediate_or_cancel: false,
       limit: 2.57e-5,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-1ST",
       },
       opened_at: ~N[2017-12-10 00:27:51.923],
@@ -527,9 +529,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
       quantity: 34.46129666,
       quantity_remaining: 0.0,
       rate: 8.8565e-4,
-      uuid: "ee0eceb5-5286-404f-b41f-d9e920ed3185"
     }, %Order{
-      account_id: nil,
       cancel_initiated: nil,
       closed_at: ~N[2017-12-04 08:46:55.36],
       commision: nil,
@@ -542,8 +542,6 @@ defmodule CryptoHustler.OrderPreparatorTest do
       immediate_or_cancel: false,
       limit: 4.25e-5,
       market: %Market{
-        base_currency: %Currency{},
-        market_currency: %Currency{},
         name: "BTC-NXT",
       },
       opened_at: ~N[2017-12-04 08:46:42.907],
@@ -552,10 +550,53 @@ defmodule CryptoHustler.OrderPreparatorTest do
       quantity: 76.42821529,
       quantity_remaining: 0.0,
       rate: 0.00324819,
-      uuid: "0b3032ea-8776-4127-9971-d37ea70ea4d2",
+    }, %Order{
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-04 08:46:55.36],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 8.12e-6,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 4.25e-5,
+      market: %Market{
+        name: "BTC-NXT",
+      },
+      opened_at: ~N[2017-12-04 08:46:42.907],
+      order_type: "LIMIT_BUY",
+      price_per_unit: 4.249e-5,
+      quantity: 76.42821529,
+      quantity_remaining: 0.0,
+      rate: 0.00324819,
+    }, %Order{
+      cancel_initiated: nil,
+      closed_at: ~N[2017-12-29 13:38:00],
+      commision: nil,
+      commision_reserve_remaining: nil,
+      commision_reserved: nil,
+      commission_paid: 1.0e-8,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      limit: 0.02179797,
+      market: %Market{
+        name: "ETH-SALT",
+      },
+      opened_at: ~N[2017-12-29 13:37:00],
+      order_type: "LIMIT_BUY",
+      price_per_unit: 0.02177636,
+      quantity: 0.00024522,
+      quantity_remaining: 0.0,
+      rate: 0.00000534,
     }]
+  end
 
-    market_summaries = [%MarketSummary{
+  def market_summaries do
+    [%MarketSummary{
       base_volume: 45.0364355,
       high: 5.21e-6,
       low: 4.02e-6,
@@ -814,11 +855,5 @@ defmodule CryptoHustler.OrderPreparatorTest do
       },
       volume: 557394.89819996,
     }]
-
-    assert [
-      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
-      {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
-    ] = OrderPreparator.prepare_sell_orders(balances, orders, market_summaries)
   end
 end
