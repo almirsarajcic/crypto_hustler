@@ -27,7 +27,7 @@ defmodule CryptoHustler.Bot do
     |> DataCombiner.combine_currencies_with_markets(markets)
     |> DataCombiner.combine_markets_with_market_summaries(market_summaries)
 
-    config = Application.get_env(:crypto_hustler, :bittrex)
+    config = Application.get_env(:crypto_hustler, :bot)
     base_currency_code = config[:base_currency]
     number_of_coins = String.to_integer(config[:number_of_coins])
 
