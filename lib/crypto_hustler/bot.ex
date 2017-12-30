@@ -30,9 +30,10 @@ defmodule CryptoHustler.Bot do
     config = Application.get_env(:crypto_hustler, :bot)
     base_currency_code = config[:base_currency]
     number_of_coins = String.to_integer(config[:number_of_coins])
+    profit_percentage = String.to_float(config[:profit_percentage])
 
     {:ok, orders} = GetOrderHistory.call()
-    OrderPreparator.prepare_sell_orders(base_currency_code, balances, orders, market_summaries)
+    OrderPreparator.prepare_sell_orders(base_currency_code, profit_percentage, balances, orders, market_summaries)
     |> Enum.each(&sell/1)
 
     OrderPreparator.prepare_stale_buy_orders(open_orders)

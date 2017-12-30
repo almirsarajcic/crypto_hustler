@@ -7,4 +7,5 @@ config :crypto_hustler, :bittrex,
   api_secret: "${BITTREX_API_SECRET}"
 config :crypto_hustler, :bot,
   base_currency: "${BOT_BASE_CURRENCY}",
-  number_of_coins: "${BOT_NUMBER_OF_COINS}"
+  number_of_coins: "${BOT_NUMBER_OF_COINS}",
+  profit_percentage: "${BOT_PROFIT_PERCENTAGE}"

@@ -2,6 +2,7 @@ defmodule CryptoHustler.OrderPreparator do
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
 
   @minimum_trade 0.00050000
+  @selling_fee 0.0025
 
   # TODO try to buy even more coins using surplus left from dividing balance and preparing orders
   def prepare_buy_orders(market_summaries, available_base_currency_balance, number_of_coins) do
@@ -26,9 +27,9 @@ defmodule CryptoHustler.OrderPreparator do
     end
   end
 
-  def prepare_sell_orders(base_currency_code, balances, orders, market_summaries, prepared_orders \\ [])
-  def prepare_sell_orders(base_currency_code, [], orders, market_summaries, prepared_orders), do: prepared_orders
-  def prepare_sell_orders(base_currency_code, [head|tail], orders, market_summaries, prepared_orders) do
+  def prepare_sell_orders(base_currency_code, profit_percentage, balances, orders, market_summaries, prepared_orders \\ [])
+  def prepare_sell_orders(_, _, [], _, _, prepared_orders), do: prepared_orders
+  def prepare_sell_orders(base_currency_code, profit_percentage, [head|tail], orders, market_summaries, prepared_orders) do
     %Balance{available: available, currency: %Currency{code: currency_code}} = head
 
     if available > 0 && currency_code != base_currency_code do
@@ -36,7 +37,8 @@ defmodule CryptoHustler.OrderPreparator do
 
       if buy_order = find_buy_order(orders, market_name, head) do
         %Order{limit: rate} = buy_order
-        rate = Float.ceil(rate + rate * 0.0125, 8)
+        percentage = profit_percentage * 0.01 + @selling_fee
+        rate = Float.ceil(rate + rate * percentage, 8)
 
         if market_summary = find_market_summary(market_summaries, market_name) do
           %MarketSummary{ticker: %Ticker{last: current_rate}} = market_summary
@@ -51,7 +53,7 @@ defmodule CryptoHustler.OrderPreparator do
       end
     end
 
-    prepare_sell_orders(base_currency_code, tail, orders, market_summaries, prepared_orders)
+    prepare_sell_orders(base_currency_code, profit_percentage, tail, orders, market_summaries, prepared_orders)
   end
 
   defp number_of_coins(available_btc_balance, number_of_coins) do

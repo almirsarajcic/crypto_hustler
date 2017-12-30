@@ -38,7 +38,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }] = OrderPreparator.prepare_stale_buy_orders(open_orders(), ~N[2017-12-10 08:32:00])
   end
 
-  test "prepares BTC sell orders" do
+  test "prepares BTC sell orders with 0.5% profit" do
     btc_balances = balances() ++ [%Balance{
       available: 1.035296,
       balance: 1.035296,
@@ -49,13 +49,13 @@ defmodule CryptoHustler.OrderPreparatorTest do
     }]
 
     assert [
-      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050574}},
-      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00188541}},
+      {%Market{name: "BTC-SALT"}, %Order{quantity: 1.03529600, rate: 0.00050324}},
+      {%Market{name: "BTC-ZEN"}, %Order{quantity: 0.47469832, rate: 0.00187610}},
       {%Market{name: "BTC-LMC"}, %Order{quantity: 200.76940639, rate: 0.00000444}},
-    ] = OrderPreparator.prepare_sell_orders("BTC", btc_balances, order_history(), market_summaries())
+    ] = OrderPreparator.prepare_sell_orders("BTC", 0.5, btc_balances, order_history(), market_summaries())
   end
 
-  test "prepares ETH sell orders" do
+  test "prepares ETH sell orders with 1% profit" do
     eth_balances = balances() ++ [%Balance{
       available: 0.00024522,
       balance: 0.00024522,
@@ -67,7 +67,7 @@ defmodule CryptoHustler.OrderPreparatorTest do
 
     assert [
       {%Market{name: "ETH-SALT"}, %Order{quantity: 0.00024522, rate: 0.02207045}},
-    ] = OrderPreparator.prepare_sell_orders("ETH", eth_balances, order_history(), market_summaries())
+    ] = OrderPreparator.prepare_sell_orders("ETH", 1.0, eth_balances, order_history(), market_summaries())
   end
 
   def market_summaries_buy do
