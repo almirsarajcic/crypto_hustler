@@ -13,6 +13,7 @@ defmodule CryptoHustler.BaseCurrencyBalanceCalculator do
     }
   end
 
+  defp get_base_currency_balance(base_currency, []), do: %Balance{currency: %Currency{code: base_currency}, balance: 0.0, available: 0.0, pending: 0.0}
   defp get_base_currency_balance(base_currency, [head|tail]) do
     case head do
       %Balance{currency: %Currency{code: ^base_currency}} ->
