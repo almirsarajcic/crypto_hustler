@@ -11,11 +11,22 @@ defmodule CryptoHustler.Bot do
   @minimum_trade 0.00050000
 
   def start_link() do
-    Task.start_link(__MODULE__, :hustle, [])
+    Task.start_link(__MODULE__, :init, [])
   end
 
-  def hustle do
+  def init do
     sleep(5)
+
+    config = Application.get_env(:crypto_hustler, :bot)
+    halt = Keyword.get(config, :halt, "")
+    hustle(config, halt)
+  end
+
+  def hustle(_, halt) when byte_size(halt) > 0, do: nil
+  def hustle(config, _) do
+    base_currency_code = config[:base_currency]
+    number_of_coins = String.to_integer(config[:number_of_coins])
+    profit_percentage = String.to_float(config[:profit_percentage])
 
     {:ok, open_orders} = GetOpenOrders.call()
     {:ok, currencies} = GetCurrencies.call()
@@ -26,11 +37,6 @@ defmodule CryptoHustler.Bot do
     market_summaries = currencies
     |> DataCombiner.combine_currencies_with_markets(markets)
     |> DataCombiner.combine_markets_with_market_summaries(market_summaries)
-
-    config = Application.get_env(:crypto_hustler, :bot)
-    base_currency_code = config[:base_currency]
-    number_of_coins = String.to_integer(config[:number_of_coins])
-    profit_percentage = String.to_float(config[:profit_percentage])
 
     {:ok, orders} = GetOrderHistory.call()
     OrderPreparator.prepare_sell_orders(base_currency_code, profit_percentage, balances, orders, market_summaries)
