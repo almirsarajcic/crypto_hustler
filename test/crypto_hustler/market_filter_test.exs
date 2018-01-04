@@ -1,45 +1,55 @@
-defmodule CryptoHustler.CoinFinderTest do
-  use ExUnit.Case
+defmodule CryptoHustler.MarketFilterTest do
+  use ExUnit.Case, async: true
 
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Order, Ticker}
   alias CryptoHustler.MarketFilter
 
-  test "filters markets" do
-    balances = [%Balance{
+  test "filters BTC markets" do
+    assert [%MarketSummary{
+      market: %Market{
+        name: "BTC-ZEC",
+      },
+    }] = MarketFilter.filter(market_summaries(), "BTC", balances(), open_orders())
+  end
+
+  test "filters USDT markets" do
+    assert [%MarketSummary{
+      market: %Market{
+        name: "USDT-ZEC",
+      },
+    }] = MarketFilter.filter(market_summaries(), "USDT", balances(), open_orders())
+  end
+
+  defp balances do
+    [%Balance{
       available: 0.00000003,
       balance: 0.00000003,
-      crypto_address: "wAll3Taddr355",
       currency: %Currency{
         code: "BTC",
       },
-      pending: 0.0,
     }, %Balance{
       available: 0.0,
       balance: 0.00779119,
-      crypto_address: nil,
       currency: %Currency{
         code: "BTG",
       },
-      pending: 0.0,
     }, %Balance{
       available: 76.42821529,
       balance: 76.42821529,
-      crypto_address: nil,
       currency: %Currency{
         code: "NXT",
       },
-      pending: 0.0,
     }, %Balance{
       available: 0.0,
       balance: 0.0,
-      crypto_address: nil,
       currency: %Currency{
         code: "XRP",
       },
-      pending: 0.0,
     }]
+  end
 
-    market_summaries = [%MarketSummary{
+  defp market_summaries do
+    [%MarketSummary{
       base_volume: 1891656.01431634,
       high: 330.0,
       low: 275.0,
@@ -335,46 +345,47 @@ defmodule CryptoHustler.CoinFinderTest do
         last: 2.9218e-4,
       },
       volume: 63406.07549542,
-    }]
-
-    open_orders = [%Order{
-      account_id: nil,
-      cancel_initiated: false,
-      closed_at: nil,
-      commision: nil,
-      commision_reserve_remaining: nil,
-      commision_reserved: nil,
-      commission_paid: 0.0,
-      condition: "NONE",
-      condition_target: nil,
-      conditional: false,
-      immediate_or_cancel: false,
-      limit: 2.9218e-4,
+    }, %MarketSummary{
+      base_volume: 175487125.41883156,
+      high: 16198.7,
+      low: 13560.0,
       market: %Market{
-        active: nil,
-        base_currency: %Currency{},
-        created_at: nil,
-        market_currency: %Currency{},
-        minimum_trade: nil,
-        name: "BTC-TKS",
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1DUb2YYbQA1jjaNYzVXLZ7ZioEhLXtbUru",
+          code: "USDT",
+          coin_type: "OMNI",
+          minimum_confirmation: 2,
+          name: "Tether",
+          transaction_fee: 25.0,
+        },
+        created_at: ~N[2015-12-11 06:31:40.633],
+        market_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.001,
+        },
+        minimum_trade: 7.4074e-4,
+        name: "USDT-BTC",
       },
-      open: nil,
-      opened_at: ~N[2017-12-24 16:23:37.867],
-      order_type: "LIMIT_BUY",
-      price_per_unit: nil,
-      quantity: 2.53009068,
-      quantity_remaining: 2.53009068,
-      rate: 0.0,
-      reserve_remaining: nil,
-      reserved: nil,
-      sentinel: nil,
-      uuid: "8941c434-ec30-4f2c-8c94-0317c139c98e",
-    }]
-
-    assert [%MarketSummary{
-      base_volume: 482.58344911,
-      high: 0.0223772,
-      low: 0.01651678,
+      open_buy_orders: 8586,
+      open_sell_orders: 6651,
+      previous_day: 16120.39576595,
+      ticker: %Ticker{
+        ask: 1.41e4,
+        bid: 14099.0,
+        last: 1.41e4,
+      },
+      volume: 11928.33672876,
+    }, %MarketSummary{
+      base_volume: 25411.44592563,
+      high: 1.2295e-4,
+      low: 8.689e-5,
       market: %Market{
         active: true,
         base_currency: %Currency{
@@ -386,28 +397,101 @@ defmodule CryptoHustler.CoinFinderTest do
           name: "Bitcoin",
           transaction_fee: 0.001,
         },
-        created_at: ~N[2016-10-28 17:13:10.833],
+        created_at: ~N[2014-12-22 19:30:27.45],
         market_currency: %Currency{
           active: true,
-          base_address: "t1KVcK1PEFHRjzJTA3oeXA82tiUGj5V72Cb",
-          code: "ZEC",
-          coin_type: "BITCOINEX",
-          minimum_confirmation: 20,
-          name: "ZCash",
-          transaction_fee: 0.005,
+          base_address: "rPVMhWBsfF9iMXYj3aAzJVkPDTFNSyWdKy",
+          code: "XRP",
+          coin_type: "RIPPLE",
+          minimum_confirmation: 10,
+          name: "Ripple",
+          transaction_fee: 5.0,
         },
-        minimum_trade: 0.00853239,
-        name: "BTC-ZEC",
+        minimum_trade: 5.35733419,
+        name: "BTC-XRP",
       },
-      open_buy_orders: 696,
-      open_sell_orders: 10871,
-      previous_day: 0.01761,
+      open_buy_orders: 12252,
+      open_sell_orders: 8744,
+      previous_day: 9.152e-5,
       ticker: %Ticker{
-        ask: 0.0202965,
-        bid: 0.02014008,
-        last: 0.02014006,
+        ask: 1.1022e-4,
+        bid: 1.102e-4,
+        last: 1.102e-4,
       },
-      volume: 24378.01097417,
-    }] = MarketFilter.filter(market_summaries, balances, open_orders)
+      volume: 248973351.63068497,
+    }, %MarketSummary{
+      base_volume: 52410813.51447684,
+      high: 1.71,
+      low: 1.2071001,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1DUb2YYbQA1jjaNYzVXLZ7ZioEhLXtbUru",
+          code: "USDT",
+          coin_type: "OMNI",
+          minimum_confirmation: 2,
+          name: "Tether",
+          transaction_fee: 25.0,
+        },
+        created_at: ~N[2017-07-14 17:10:10.737],
+        market_currency: %Currency{
+          active: true,
+          base_address: "rPVMhWBsfF9iMXYj3aAzJVkPDTFNSyWdKy",
+          code: "XRP",
+          coin_type: "RIPPLE",
+          minimum_confirmation: 10,
+          name: "Ripple",
+          transaction_fee: 5.0,
+        },
+        minimum_trade: 7.3534816,
+        name: "USDT-XRP",
+      },
+      open_buy_orders: 3739,
+      open_sell_orders: 1587,
+      previous_day: 1.27300001,
+      ticker: %Ticker{
+        ask: 1.58899987,
+        bid: 1.587,
+        last: 1.58699999,
+      },
+      volume: 36533363.35324321,
+    }]
+  end
+
+  defp open_orders do
+    [%Order{
+      cancel_initiated: false,
+      closed_at: nil,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      market: %Market{
+        name: "BTC-TKS",
+      },
+      opened_at: ~N[2017-12-24 16:23:37.867],
+      order_type: "LIMIT_BUY",
+      quantity: 2.53009068,
+      quantity_remaining: 2.53009068,
+      reserve_remaining: nil,
+      reserved: nil,
+    }, %Order{
+      cancel_initiated: false,
+      closed_at: nil,
+      condition: "NONE",
+      condition_target: nil,
+      conditional: false,
+      immediate_or_cancel: false,
+      market: %Market{
+        name: "BTC-XRP",
+      },
+      opened_at: ~N[2017-12-29 15:59:51.547],
+      order_type: "LIMIT_BUY",
+      quantity: 7.49783739,
+      quantity_remaining: 7.49783739,
+      reserve_remaining: nil,
+      reserved: nil,
+    }]
   end
 end
