@@ -9,4 +9,5 @@ config :crypto_hustler, :bot,
   base_currency: "${BOT_BASE_CURRENCY}",
   number_of_coins: "${BOT_NUMBER_OF_COINS}",
   profit_percentage: "${BOT_PROFIT_PERCENTAGE}",
-  halt: "${BOT_HALT}"
+  halt: "${BOT_HALT}",
+  reserved: "${BOT_RESERVED}"

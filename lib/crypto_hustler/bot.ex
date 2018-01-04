@@ -27,6 +27,7 @@ defmodule CryptoHustler.Bot do
     base_currency_code = config[:base_currency]
     number_of_coins = String.to_integer(config[:number_of_coins])
     profit_percentage = String.to_float(config[:profit_percentage])
+    reserved = String.to_float(config[:reserved])
 
     {:ok, open_orders} = GetOpenOrders.call()
     {:ok, currencies} = GetCurrencies.call()
@@ -45,7 +46,7 @@ defmodule CryptoHustler.Bot do
     OrderPreparator.prepare_stale_buy_orders(open_orders)
     |> Enum.each(&Cancel.call/1)
 
-    base_currency_balance = BaseCurrencyBalanceCalculator.calculate(base_currency_code, balances, market_summaries)
+    base_currency_balance = BaseCurrencyBalanceCalculator.calculate(base_currency_code, balances, market_summaries, reserved)
 
     if base_currency_balance.available >= @minimum_trade do
       market_summaries

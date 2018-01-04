@@ -2,14 +2,20 @@ defmodule CryptoHustler.BaseCurrencyBalanceCalculator do
   alias Bittrex.Data.{Balance, Currency, Market, MarketSummary, Ticker}
   alias CryptoHustler.BaseCurrencyBalance
 
-  def calculate(base_currency, balances, market_summaries) do
+  def calculate(base_currency, balances, market_summaries, reserved \\ 0.0) do
     base_currency_balance = get_base_currency_balance(base_currency, balances)
     estimated = estimated_base_currency_balance(base_currency, market_summaries, balances)
+    available = base_currency_balance.available - reserved
+
+    if available < 0 do
+      available = 0.0
+    end
 
     %BaseCurrencyBalance{
       real: base_currency_balance.balance,
       estimated: Float.round(estimated, 8),
-      available: base_currency_balance.available,
+      available: available,
+      reserved: reserved
     }
   end
 

@@ -23,16 +23,18 @@ defmodule CryptoHustler.BaseCurrencyCalculatorTest do
     assert %BaseCurrencyBalance{
       real: 0.01000003,
       estimated: 0.01735730,
-      available: 0.00900003,
-    } = BaseCurrencyBalanceCalculator.calculate("BTC", balances(), market_summaries())
+      available: 0.00800003,
+      reserved: 0.1,
+    } = BaseCurrencyBalanceCalculator.calculate("BTC", balances(), market_summaries(), 0.1)
   end
 
   test "estimates USDT balance" do
     assert %BaseCurrencyBalance{
       real: 0.46000299,
       estimated: 159.93084339,
-      available: 0.46000299,
-    } = BaseCurrencyBalanceCalculator.calculate("USDT", balances(), market_summaries())
+      available: 0.44000299,
+      reserved: 0.02,
+    } = BaseCurrencyBalanceCalculator.calculate("USDT", balances(), market_summaries(), 0.02)
   end
 
   defp balances do
