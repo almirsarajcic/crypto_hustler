@@ -23,7 +23,7 @@ defmodule CryptoHustler.BaseCurrencyCalculatorTest do
     assert %BaseCurrencyBalance{
       real: 0.01000003,
       estimated: 0.01735730,
-      available: 0.00800003,
+      available: 0.0,
       reserved: 0.1,
     } = BaseCurrencyBalanceCalculator.calculate("BTC", balances(), market_summaries(), 0.1)
   end
