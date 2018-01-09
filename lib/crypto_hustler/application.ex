@@ -6,6 +6,7 @@ defmodule CryptoHustler.Application do
 
     children = [
       worker(Bittrex.Client.InMemoryClient, []),
+      worker(Coinmarketcap.Client.InMemoryClient, []),
       worker(CryptoHustler.Bot, []),
     ]
 
