@@ -9,12 +9,6 @@ defmodule Coinmarketcap.Service.GetGlobal do
   end
 
   defp format_response(%Response{status: :ok, body: result}, fiat_currency) do
-    btc_dominance = if result["bitcoin_percentage_of_market_cap"] do
-      Float.round(result["bitcoin_percentage_of_market_cap"] / 100, 4)
-    end
-    updated_at = if result["last_updated"] do
-      NaiveDateTime.add(~N[1970-01-01 00:00:00], result["last_updated"])
-    end
     converted = if fiat_currency do
       lowercase = String.downcase(fiat_currency)
 
@@ -28,11 +22,11 @@ defmodule Coinmarketcap.Service.GetGlobal do
     global = %Global{
       market_cap: result["total_market_cap_usd"],
       volume: result["total_24h_volume_usd"],
-      btc_dominance: btc_dominance,
+      btc_dominance: Coinmarketcap.calculate_percentage(result["bitcoin_percentage_of_market_cap"]),
       currencies: result["active_currencies"],
       assets: result["active_assets"],
       markets: result["active_markets"],
-      updated_at: updated_at,
+      updated_at: Coinmarketcap.parse_datetime(result["last_updated"]),
       converted: converted,
     }
     {:ok, global}
