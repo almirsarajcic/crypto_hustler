@@ -13,7 +13,7 @@ defmodule Coinmarketcap.Parser.TickerParser do
       }
     end
 
-    ticker = %Ticker{
+    %Ticker{
       id: item["id"],
       name: item["name"],
       symbol: item["symbol"],
@@ -40,8 +40,10 @@ defmodule Coinmarketcap.Parser.TickerParser do
 
   defp extract_float(nil), do: nil
   defp extract_float(string) do
-    unless Regex.match?(~r/\./, string) do
-      string = string <> ".0"
+    string = if Regex.match?(~r/\./, string) do
+      string <> ".0"
+    else
+      string
     end
 
     String.to_float(string)
