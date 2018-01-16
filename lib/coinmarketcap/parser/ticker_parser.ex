@@ -41,9 +41,9 @@ defmodule Coinmarketcap.Parser.TickerParser do
   defp extract_float(nil), do: nil
   defp extract_float(string) do
     string = if Regex.match?(~r/\./, string) do
-      string <> ".0"
-    else
       string
+    else
+      string <> ".0"
     end
 
     String.to_float(string)
