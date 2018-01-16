@@ -26,18 +26,17 @@ defmodule Coinmarketcap.Parser.TickerParser do
       total_supply: extract_float(item["total_supply"]),
       max_supply: extract_float(item["max_supply"]),
       percentage_change: %{
-        hour: percentage_change(item, "percent_change_1h"),
-        day: percentage_change(item, "percent_change_24h"),
-        week: percentage_change(item, "percent_change_7d"),
+        hour: percentage_change(item["percent_change_1h"]),
+        day: percentage_change(item["percent_change_24h"]),
+        week: percentage_change(item["percent_change_7d"]),
       },
       updated_at: NaiveDateTime.add(~N[1970-01-01 00:00:00], String.to_integer(item["last_updated"])),
       converted: converted
     }
   end
 
-  defp percentage_change(item, field) do
-    Float.round(extract_float(item[field]) / 100, 4)
-  end
+  defp percentage_change(nil), do: nil
+  defp percentage_change(string), do: Float.round(extract_float(string) / 100, 4)
 
   defp extract_float(nil), do: nil
   defp extract_float(string) do
