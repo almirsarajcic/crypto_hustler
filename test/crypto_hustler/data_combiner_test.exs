@@ -1,5 +1,5 @@
 defmodule CryptoHustler.DataMergerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Bittrex.Data.{Currency, Market, MarketSummary, Ticker}
   alias CryptoHustler.DataCombiner
