@@ -15,7 +15,7 @@ defmodule CryptoHustler.Bot do
   end
 
   def init do
-    sleep(5)
+    CryptoHustler.sleep(5)
 
     config = Application.get_env(:crypto_hustler, :bot)
     halt = Keyword.get(config, :halt, "")
@@ -65,9 +65,5 @@ defmodule CryptoHustler.Bot do
   defp sell({market, order}) do
     SellLimit.call(market, order)
     Logger.info "Selling: " <> market.name
-  end
-
-  defp sleep(seconds) do
-    :timer.sleep(:timer.seconds(seconds))
   end
 end
