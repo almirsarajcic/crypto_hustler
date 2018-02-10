@@ -6,7 +6,6 @@ defmodule CryptoHustler.Reseller do
   alias CryptoHustler.{DataCombiner, OrderPreparator}
 
   def do_your_thing(profit_percentage, base_currency_code \\ "BTC") do
-    {:ok, open_orders} = GetOpenOrders.call()
     {:ok, currencies} = GetCurrencies.call()
     {:ok, markets} = GetMarkets.call()
     {:ok, market_summaries} = GetMarketSummaries.call()
@@ -16,11 +15,6 @@ defmodule CryptoHustler.Reseller do
     |> DataCombiner.combine_currencies_with_markets(markets)
     |> DataCombiner.combine_markets_with_market_summaries(market_summaries)
 
-    Enum.filter(open_orders, fn(x) -> x.order_type == "LIMIT_SELL" end)
-    |> Enum.each(&Cancel.call/1)
-
-    CryptoHustler.sleep(1)
-
     orders = balances
     |> Enum.filter(fn(x) -> x.available > 0 && x.currency.code != "BTC" end)
     |> get_order_history(base_currency_code)
@@ -28,6 +22,13 @@ defmodule CryptoHustler.Reseller do
 
     OrderPreparator.prepare_sell_orders(base_currency_code, profit_percentage, balances, orders, market_summaries)
     |> Enum.each(&sell/1)
+  end
+
+  def cancel_sell_orders do
+    {:ok, open_orders} = GetOpenOrders.call()
+
+    Enum.filter(open_orders, fn(x) -> x.order_type == "LIMIT_SELL" end)
+    |> Enum.each(&Cancel.call/1)
   end
 
   defp get_order_history(balances, base_currency_code, orders \\ [])
