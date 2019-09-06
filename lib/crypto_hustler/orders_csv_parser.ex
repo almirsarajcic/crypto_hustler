@@ -12,14 +12,20 @@ defmodule CryptoHustler.OrdersCsvParser do
     {:ok, item} = tuple
 
     item = %{
-      "OrderUuid" => item["OrderUuid"],
+      "OrderUuid" => item["Uuid"],
       "Exchange" => item["Exchange"],
-      "Type" => item["Type"],
-      "Quantity" => convert_to_float(item["Quantity"]),
+      "TimeStamp" => reformat_datetime(item["TimeStamp"]),
+      "OrderType" => item["OrderType"],
       "Limit" => convert_to_float(item["Limit"]),
-      "CommissionPaid" => convert_to_float(item["CommissionPaid"]),
+      "Quantity" => convert_to_float(item["Quantity"]),
+      "QuantityRemaining" => convert_to_float(item["QuantityRemaining"]),
+      "Commission" => convert_to_float(item["Commission"]),
       "Price" => convert_to_float(item["Price"]),
-      "Opened" => reformat_datetime(item["Opened"]),
+      "PricePerUnit" => convert_to_float(item["PricePerUnit"]),
+      "IsConditional" => convert_to_boolean(item["IsConditional"]),
+      "Condition" => item["Condition"],
+      "ConditionTarget" => convert_to_float(item["ConditionTarget"]),
+      "ImmediateOrCancel" => convert_to_boolean(item["ImmediateOrCancel"]),
       "Closed" => reformat_datetime(item["Closed"]),
     }
 
@@ -34,6 +40,14 @@ defmodule CryptoHustler.OrdersCsvParser do
     end
 
     String.to_float(string)
+  end
+
+  def convert_to_boolean(string) do
+    if string == "True" do
+      true
+    else
+      false
+    end
   end
 
   defp reformat_datetime(string) do
