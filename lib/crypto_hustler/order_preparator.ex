@@ -73,7 +73,7 @@ defmodule CryptoHustler.OrderPreparator do
   end
 
   defp prepare(market_summaries, number_of_coins, available_per_coin, prepared_orders \\ [])
-  defp prepare([], number_of_coins, available_per_coin, prepared_orders), do: prepared_orders
+  defp prepare([], _, _, prepared_orders), do: prepared_orders
   defp prepare([head|tail], number_of_coins, available_per_coin, prepared_orders) do
     %MarketSummary{market: market, ticker: %Ticker{bid: bid, last: last}} = head
     rate = if bid < last do
@@ -103,7 +103,7 @@ defmodule CryptoHustler.OrderPreparator do
   end
 
   defp find_buy_order([], _, _), do: nil
-  defp find_buy_order([head|tail], market_name, %Balance{available: available, currency: %Currency{code: currency_code}} = balance) do
+  defp find_buy_order([head|tail], market_name, %Balance{available: available} = balance) do
     case head do
       %Order{market: %Market{name: ^market_name}, order_type: "LIMIT_BUY", quantity: ^available} ->
         head
