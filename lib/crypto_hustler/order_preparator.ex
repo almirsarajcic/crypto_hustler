@@ -32,7 +32,7 @@ defmodule CryptoHustler.OrderPreparator do
   def prepare_sell_orders(base_currency_code, profit_percentage, [head|tail], orders, market_summaries, prepared_orders) do
     %Balance{available: available, currency: %Currency{code: currency_code}} = head
 
-    if available > 0 && currency_code != base_currency_code do
+    prepared_orders = if available > 0 && currency_code != base_currency_code do
       market_name = base_currency_code <> "-" <> currency_code
 
       if buy_order = find_buy_order(orders, market_name, head) do
@@ -43,14 +43,22 @@ defmodule CryptoHustler.OrderPreparator do
         if market_summary = find_market_summary(market_summaries, market_name) do
           %MarketSummary{ticker: %Ticker{last: current_rate}} = market_summary
 
-          if current_rate > rate do
-            rate = current_rate
+          rate = if current_rate > rate do
+            current_rate
+          else
+            rate
           end
 
           prepared_order = {%Market{name: market_name}, %Order{quantity: available, rate: rate}}
-          prepared_orders = [prepared_order|prepared_orders]
+          [prepared_order|prepared_orders]
+        else
+          prepared_orders
         end
+      else
+        prepared_orders
       end
+    else
+      prepared_orders
     end
 
     prepare_sell_orders(base_currency_code, profit_percentage, tail, orders, market_summaries, prepared_orders)
@@ -76,9 +84,11 @@ defmodule CryptoHustler.OrderPreparator do
     rate_with_fee = rate + rate * 0.0025
     quantity = Float.floor(available_per_coin / rate_with_fee, 8)
 
-    if quantity >= market.minimum_trade do
+    prepared_orders = if quantity >= market.minimum_trade do
       prepared_order = {market, %Order{quantity: quantity, rate: rate}}
-      prepared_orders = [prepared_order|prepared_orders]
+      [prepared_order|prepared_orders]
+    else
+      prepared_orders
     end
 
     if length(prepared_orders) >= number_of_coins do
