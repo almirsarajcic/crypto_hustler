@@ -23,8 +23,9 @@ erl_crash.dump
 /config/prod.secret.exs
 /config/dev.secret.exs
 
-# Atom IDE stuff
+# IDE stuff
 .elixir_ls
+.vscode
 
 /releases/
 

@@ -16,9 +16,11 @@ defmodule CryptoHustler.OrdersCsvParserTest do
       },
       order_type: "LIMIT_SELL",
       quantity: 18.11756606,
+      quantity_remaining: 0.00000000,
       limit: 0.00004079,
       commission_paid: 0.00000184,
       rate: 0.00073901,
+      price_per_unit: 0.00004079,
       opened_at: ~N[2017-12-25 01:06:25],
       closed_at: ~N[2018-01-04 08:19:52],
     }, %Order{
@@ -27,7 +29,7 @@ defmodule CryptoHustler.OrdersCsvParserTest do
         name: "BTC-ABY",
       },
       order_type: "LIMIT_BUY",
-      quantity: 314.9826583,
+      quantity: 314.98265829,
       limit: 0.00000174,
       commission_paid: 0.00000137,
       rate: 0.00054806,
@@ -57,6 +59,20 @@ defmodule CryptoHustler.OrdersCsvParserTest do
       rate: 0.05448574,
       opened_at: ~N[2018-01-03 09:03:45],
       closed_at: ~N[2018-01-03 09:03:49],
+    }, %Order{
+      uuid: "1683b90e-4579-44a1-9ce1-f7d449d7732d",
+      market: %Market{
+        name: "BTC-1ST",
+      },
+      order_type: "LIMIT_BUY",
+      quantity: 34.46129666,
+      quantity_remaining: 0.00000000,
+      limit: 0.00002545,
+      commission_paid: 0.00000219,
+      rate: 0.00087703,
+      price_per_unit: 0.00002545,
+      opened_at: ~N[2017-12-10 12:13:07],
+      closed_at: ~N[2017-12-10 12:15:59],
     }] = OrdersCsvParser.call(file_stream)
   end
 end

@@ -7,8 +7,10 @@ defmodule CryptoHustler.BaseCurrencyBalanceCalculator do
     estimated = estimated_base_currency_balance(base_currency, market_summaries, balances)
     available = base_currency_balance.available - reserved
 
-    if available < 0 do
-      available = 0.0
+    available = if available < 0 do
+      0.0
+    else
+      available
     end
 
     %BaseCurrencyBalance{

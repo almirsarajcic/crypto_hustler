@@ -29,7 +29,7 @@ defmodule Coinmarketcap.Client.HttpClient do
   end
 
   defp process_response({:ok, %{status_code: 200, body: body}} = _response) do
-    data = decode_response(body)
+    decode_response(body)
   end
   defp process_response({:ok, %{status_code: 404}} = _response), do: {:error, "not found"}
   defp process_response({:error, reason}), do: {:error, reason}
