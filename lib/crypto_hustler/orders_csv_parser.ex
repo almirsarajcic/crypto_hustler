@@ -32,6 +32,7 @@ defmodule CryptoHustler.OrdersCsvParser do
     OrderParser.call(item)
   end
 
+  def convert_to_float(""), do: nil
   def convert_to_float(string) do
     string = if string =~ "." do
       string
