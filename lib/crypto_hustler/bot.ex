@@ -4,7 +4,7 @@ defmodule CryptoHustler.Bot do
   alias Bittrex.Service.Account.{GetBalances, GetOrderHistory}
   alias Bittrex.Service.Market.{BuyLimit, Cancel, GetOpenOrders, SellLimit}
   alias Bittrex.Service.Public.{GetCurrencies, GetMarkets, GetMarketSummaries}
-  alias CryptoHustler.{BaseCurrencyBalanceCalculator, DataCombiner, MarketFilter, OrderPreparator}
+  alias CryptoHustler.{BaseCurrencyBalanceCalculator, CoinsNumberCalculator, DataCombiner, MarketFilter, OrderPreparator}
 
   require Logger
 
@@ -25,7 +25,7 @@ defmodule CryptoHustler.Bot do
   def hustle(_, halt) when byte_size(halt) > 0, do: nil
   def hustle(config, _) do
     base_currency_code = config[:base_currency]
-    number_of_coins = String.to_integer(config[:number_of_coins])
+    max_number_of_coins = String.to_integer(config[:number_of_coins])
     profit_percentage = String.to_float(config[:profit_percentage])
     reserved = String.to_float(config[:reserved])
 
@@ -34,6 +34,8 @@ defmodule CryptoHustler.Bot do
     {:ok, markets} = GetMarkets.call()
     {:ok, market_summaries} = GetMarketSummaries.call()
     {:ok, balances} = GetBalances.call()
+
+    number_of_coins = CoinsNumberCalculator.calculate(balances, max_number_of_coins)
 
     market_summaries = currencies
     |> DataCombiner.combine_currencies_with_markets(markets)
