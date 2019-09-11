@@ -41,6 +41,13 @@ defmodule CryptoHustler.CoinsNumberCalculatorTest do
           code: "USDT",
         },
         pending: 0.0,
+      }, %Balance{
+        available: 2.5e3,
+        balance: 2.5e3,
+        currency: %Currency{
+          code: "BTXCRD",
+        },
+        pending: 0.0,
       }
     ], 10) == 6
   end
