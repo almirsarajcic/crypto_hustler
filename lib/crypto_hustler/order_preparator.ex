@@ -12,6 +12,8 @@ defmodule CryptoHustler.OrderPreparator do
       available_per_coin = available_base_currency_balance / number_of_coins
 
       prepare(market_summaries, number_of_coins, available_per_coin)
+    else
+      []
     end
   end
 
@@ -64,6 +66,7 @@ defmodule CryptoHustler.OrderPreparator do
     prepare_sell_orders(base_currency_code, profit_percentage, tail, orders, market_summaries, prepared_orders)
   end
 
+  defp number_of_coins(_, 0), do: 0
   defp number_of_coins(available_btc_balance, number_of_coins) do
     if available_btc_balance / number_of_coins >= @minimum_trade do
       number_of_coins

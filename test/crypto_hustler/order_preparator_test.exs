@@ -26,6 +26,12 @@ defmodule CryptoHustler.OrderPreparatorTest do
     ] = OrderPreparator.prepare_buy_orders(market_summaries_buy(), available_btc_balance, 2)
   end
 
+  test "does not fail for 0 coins" do
+    available_btc_balance = 0.00244302
+
+    assert [] = OrderPreparator.prepare_buy_orders(market_summaries_buy(), available_btc_balance, 0)
+  end
+
   test "prepares orders for cancellation" do
     assert [%Order{
       market: %Market{
