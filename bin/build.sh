@@ -5,8 +5,9 @@ set -x
 
 cd /opt/build
 
-MIX_ENV=prod mix do clean, compile, release --env=prod
+MIX_ENV=prod mix do clean, compile, release
 
-echo "Exporting release tarball.."
-cp /opt/build/_build/prod/rel/$APP/releases/$VERSION/$APP.tar.gz /opt/build/releases/
+echo "Exporting release tarball..."
+cd /opt/build/_build/prod/rel/$APP/
+tar -czvf /opt/build/releases/$APP.tar.gz .
 echo "Success!"

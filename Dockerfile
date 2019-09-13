@@ -16,13 +16,9 @@ RUN \
     cd /opt/$APP && \
     tar -xzf $APP.tar.gz && \
     rm $APP.tar.gz && \
-    rm -rf /opt/app/* && \
-    chmod -R 777 /opt/app && \
     chmod -R 777 /opt/$APP && \
     ln -s /opt/$APP/bin/$APP /opt/$APP/bin/app
 
 WORKDIR /opt/$APP
 
-COPY bin/run run
-
-CMD ./run foreground
+CMD ./bin/app start

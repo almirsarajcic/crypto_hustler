@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :crypto_hustler, :bittrex, client: Bittrex.Client.InMemoryClient
 

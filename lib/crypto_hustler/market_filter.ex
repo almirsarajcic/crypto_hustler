@@ -47,6 +47,7 @@ defmodule CryptoHustler.MarketFilter do
     end
   end
 
+  defp has_potential(%MarketSummary{ticker: %Ticker{last: 0.0}}), do: false
   defp has_potential(%MarketSummary{base_volume: base_volume, high: high, low: low, ticker: %Ticker{last: last}}) do
     high_diff = (high - last) / last
     low_diff = (low - last) / last

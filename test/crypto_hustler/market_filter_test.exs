@@ -456,6 +456,43 @@ defmodule CryptoHustler.MarketFilterTest do
         last: 1.58699999,
       },
       volume: 36533363.35324321,
+    }, %MarketSummary{
+      base_volume: 0.0,
+      high: 0.0,
+      low: 0.0,
+      market: %Market{
+        active: true,
+        base_currency: %Currency{
+          active: true,
+          base_address: "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+          code: "BTC",
+          coin_type: "BITCOIN",
+          minimum_confirmation: 2,
+          name: "Bitcoin",
+          transaction_fee: 0.0005,
+        },
+        created_at: ~N[2019-05-07 17:00:53.737],
+        market_currency: %Currency{
+          active: true,
+          base_address: "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
+          code: "WIB",
+          coin_type: "ETH_CONTRACT",
+          minimum_confirmation: 36,
+          name: "Wibson",
+          transaction_fee: 1.0,
+        },
+        minimum_trade: 6250.0,
+        name: "BTC-WIB",
+      },
+      open_buy_orders: 25,
+      open_sell_orders: 293,
+      previous_day: 0.0,
+      ticker: %Ticker{
+        ask: 4.0e-8,
+        bid: 3.0e-8,
+        last: 0.0,
+      },
+      volume: 0.0,
     }]
   end
 
